@@ -1,0 +1,163 @@
+/* Global styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: #1d3e60;
+}
+
+/* Header and navigation */
+header nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem;
+  position: relative;
+}
+
+header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1.5rem;
+}
+
+header nav ul li a {
+  text-decoration: none;
+  color: #1d3e60;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Burger menu (hidden by default) */
+.burger {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #1d3e60;
+}
+
+/* Hero section */
+.hero {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5vw;
+  position: relative;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+/* Circle */
+.circle {
+  width: 45vw;
+  height: 45vw;
+  max-width: 500px;
+  max-height: 500px;
+  background-color: #8cbfd6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  left: -400px;
+  margin-right: 2rem;
+}
+
+.hexagon {
+  width: 40%;
+  height: auto;
+}
+
+/* Logo image */
+.logo-image {
+  width: 70vw;
+  max-width: 800px;
+  height: auto;
+  z-index: 2;
+  margin-left: -20vw;
+  position: relative;
+  top: -20px;
+}
+
+/* Order tracker */
+.order-tracker {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  text-align: center;
+  color: #1d3e60;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.order-tracker img {
+  width: 90px;
+  max-width: 25vw;
+  display: block;
+  margin: 0 auto;
+}
+
+.order-tracker p {
+  margin: 8px 0 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+
+@media (max-width: 1230px) {
+  .circle {
+    display: none;
+  }
+
+  .logo-image {
+    margin-left: 30px;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 800px) {
+  header nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .burger {
+    display: block;
+    margin-left: auto;
+  }
+
+  header nav ul {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    padding: 1rem 0;
+  }
+
+  header nav ul.active {
+    display: flex;
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .logo-image {
+    width: 70vw;
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+
+  .order-tracker {
+    position: static;
+    margin-top: 2rem;
+  }
+
+  header nav ul li a {
+    font-size: 0.95rem;
+  }
+}

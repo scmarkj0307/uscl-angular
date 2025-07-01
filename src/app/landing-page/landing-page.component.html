@@ -1,0 +1,25 @@
+<header>
+  <nav>
+    <div class="burger" (click)="toggleMenu()">☰</div>
+    <ul [class.active]="menuOpen">
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#brands">BRANDS</a></li>
+      <li><a href="#services">SERVICES</a></li>
+      <li><a href="#contact">CONTACT</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="circle" *ngIf="showCircle">
+      <div class="hexagon"></div>
+    </div>
+    <img src="assets/images/image3.png" alt="Brand Logo" class="logo-image">
+  </div>
+
+  <div class="order-tracker" (click)="navigateToTransactions()">
+    <img src="assets/images/image4.png" alt="Product Image">
+    <p>track your order here!!!</p>
+  </div>
+</main>

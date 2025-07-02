@@ -1,5 +1,6 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-landing-page',
@@ -9,30 +10,36 @@ import { Router } from '@angular/router';
 export class LandingPageComponent implements OnInit {
   showCircle = true;
   menuOpen = false;
+  isBrowser: boolean;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit(): void {
-    this.checkScreenSize();
+    if (this.isBrowser) {
+      this.checkScreenSize();
+    }
   }
 
-  // Automatically updates `showCircle` based on screen size
   @HostListener('window:resize')
   onResize() {
-    this.checkScreenSize();
+    if (this.isBrowser) {
+      this.checkScreenSize();
+    }
   }
 
-  // Show circle only if width >= 800px
   checkScreenSize() {
     this.showCircle = window.innerWidth >= 800;
   }
 
-  // Toggle burger menu visibility
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
 
-  // Optional navigation method to go to /transactions
   navigateToTransactions() {
     this.router.navigateByUrl('/transactions');
   }

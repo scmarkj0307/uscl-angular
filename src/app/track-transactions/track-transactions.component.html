@@ -13,7 +13,27 @@
   <!-- Center: Image 1 with input and button -->
   <div class="center-content">
     <img src="assets/images/image1.png" alt="Center Image" class="center-image" />
-    <input type="text" placeholder="Enter tracking ID" class="track-input" />
-    <button class="track-button">TRACK NOW!!</button>
+    <input type="text" [(ngModel)]="trackingId" placeholder="Enter tracking ID" class="track-input" />
+    <button class="track-button" (click)="track()">TRACK NOW!!</button>
+  </div>
+</div>
+
+<!-- ✅ Transaction Found Modal -->
+<div class="modal-backdrop" *ngIf="showSuccessModal">
+  <div class="modal">
+    <h2>Transaction Found</h2>
+    <p>ID: {{ transaction?.trackingId }}</p>
+    <p>Message: {{ transaction?.trackingMessage }}</p>
+    <p>Status: {{ transaction?.trackingStatus }}</p>
+    <button (click)="closeSuccessModal()">Close</button>
+  </div>
+</div>
+
+<!-- ❌ Transaction Not Found Modal -->
+<div class="modal-backdrop" *ngIf="showErrorModal">
+  <div class="modal">
+    <h2>Transaction Not Found</h2>
+    <p>No transaction found with ID "{{ trackingId }}"</p>
+    <button (click)="closeErrorModal()">Close</button>
   </div>
 </div>

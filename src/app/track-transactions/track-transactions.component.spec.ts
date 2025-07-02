@@ -1,23 +1,44 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
-import { TrackTransactionsComponent } from './track-transactions.component';
+@Component({
+  selector: 'app-track-transactions',
+  templateUrl: './track-transactions.component.html',
+  styleUrls: ['./track-transactions.component.css']
+})
+export class TrackTransactionsComponent {
+  trackingId: string = '';
+  transaction: any;
+  showSuccessModal: boolean = false;
+  showErrorModal: boolean = false;
 
-describe('TrackTransactionsComponent', () => {
-  let component: TrackTransactionsComponent;
-  let fixture: ComponentFixture<TrackTransactionsComponent>;
+  constructor(private router: Router, private http: HttpClient) {}
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [TrackTransactionsComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(TrackTransactionsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  navigateToHome() {
+    this.router.navigateByUrl('/home');
+  }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  track() {
+    if (!this.trackingId.trim()) return;
+
+    this.http.get(`http://localhost:3000/api/transactions/${this.trackingId}`).subscribe({
+      next: (data) => {
+        this.transaction = data;
+        this.showSuccessModal = true;
+      },
+      error: (err) => {
+        console.error('Tracking error:', err);
+        this.showErrorModal = true;
+      }
+    });
+  }
+
+  closeSuccessModal() {
+    this.showSuccessModal = false;
+  }
+
+  closeErrorModal() {
+    this.showErrorModal = false;
+  }
+}

@@ -5,8 +5,10 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { TrackTransactionsComponent } from './track-transactions/track-transactions.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { GetUserComponent } from './get-user/get-user.component';
 
 const routes: Routes = [
+  { path: 'get-user', component: GetUserComponent },
   { path: 'home', component: LandingPageComponent },
   { path: 'transactions', component: TrackTransactionsComponent },
   { path: 'users', component: UserListComponent },

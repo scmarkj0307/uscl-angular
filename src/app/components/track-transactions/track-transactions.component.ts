@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { TransactionsService } from '../../services/transactions.service';
 
 @Component({
   selector: 'app-track-transactions',
@@ -8,27 +8,25 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./track-transactions.component.css']
 })
 export class TrackTransactionsComponent {
-  trackingId: string = '';
+  trackingId: any;
   transaction: any;
   showSuccessModal: boolean = false;
   showErrorModal: boolean = false;
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private TransactionsService: TransactionsService) {}
 
   navigateToHome() {
     this.router.navigateByUrl('/home');
   }
 
   track() {
-    if (!this.trackingId.trim()) return;
-
-    this.http.get(`http://localhost:3000/api/transactions/${this.trackingId}`).subscribe({
+     this.TransactionsService.getTransactionById(this.trackingId).subscribe({
       next: (data) => {
         this.transaction = data;
         this.showSuccessModal = true;
       },
       error: (err) => {
-        console.error('Tracking error:', err);
+        console.error('Error fetching user:', err);
         this.showErrorModal = true;
       }
     });

@@ -55,14 +55,24 @@ header nav ul li a {
   height: 45vw;
   max-width: 500px;
   max-height: 500px;
-  background-color: #8cbfd6;
+  background-color: #1d3e60;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
-  left: -400px;
-  margin-right: 2rem;
+  overflow: hidden;
+}
+
+/* image5: smaller, circular, on top */
+.image5 {
+  width: 95%; /* smaller than circle */
+  height: 95%;
+  border-radius: 50%; /* makes it round */
+  object-fit: cover;
+  z-index: 2;
+  position: relative;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* optional: soft border look */
 }
 
 .hexagon {
@@ -76,7 +86,6 @@ header nav ul li a {
   max-width: 800px;
   height: auto;
   z-index: 2;
-  margin-left: -20vw;
   position: relative;
   top: -20px;
 }
@@ -84,7 +93,7 @@ header nav ul li a {
 /* Order tracker */
 .order-tracker {
   position: absolute;
-  bottom: 30px;
+  bottom: -40px;
   right: 30px;
   text-align: center;
   color: #1d3e60;

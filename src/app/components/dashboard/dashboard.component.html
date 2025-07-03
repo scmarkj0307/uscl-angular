@@ -1,0 +1,77 @@
+<div class="dashboard">
+  <div class="sidebar" [class.open]="menuOpen">
+    <div class="hamburger" (click)="toggleMenu()">☰</div>
+    <nav>
+      <a (click)="setSection('dashboard')" [class.active]="activeSection === 'dashboard'">Dashboard</a>
+      <a (click)="setSection('admins')" [class.active]="activeSection === 'admins'">Admins</a>
+      <a (click)="setSection('clients')" [class.active]="activeSection === 'clients'">Clients</a>
+      <a (click)="setSection('transactions')" [class.active]="activeSection === 'transactions'">Transactions</a>
+      <a (click)="logout()">Logout</a>
+    </nav>
+  </div>
+
+  <div class="content">
+
+    <!-- Dashboard Overview -->
+    <div *ngIf="activeSection === 'dashboard'" class="overview">
+      <div class="section transactions">
+        <h2>TRANSACTIONS</h2>
+        <div class="status-btn green">4 TRANSACTION <span>ACTIVE</span></div>
+        <div class="status-btn orange">4 TRANSACTION <span>PENDING</span></div>
+        <div class="status-btn red">4 TRANSACTION <span>INACTIVE</span></div>
+      </div>
+
+      <div class="section users">
+        <h2>USERS</h2>
+        <div class="status-btn blue">THERE ARE 4 ADMINS <span>ACTIVE</span></div>
+        <div class="status-btn blue">THERE ARE 2 CLIENTS <span>ACTIVE</span></div>
+      </div>
+    </div>
+
+    <!-- Admins Section -->
+    <div *ngIf="activeSection === 'admins'">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Created At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let admin of admins">
+                <td>{{ admin.admin_id }}</td>
+                <td>{{ admin.username }}</td>
+                <td>{{ admin.email }}</td>
+                <td>{{ admin.created_at | date: 'short' }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="pagination-controls">
+            <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+        </div>
+    </div>
+
+
+
+    <!-- Clients Section -->
+    <div *ngIf="activeSection === 'clients'" class="section full-width">
+      <h2>CLIENTS</h2>
+      <!-- Add your dynamic client table or data here -->
+      <p>Client content will go here.</p>
+    </div>
+
+    <!-- Transactions Section -->
+    <div *ngIf="activeSection === 'transactions'" class="section full-width">
+      <h2>TRANSACTIONS</h2>
+      <!-- Add your dynamic transaction table or data here -->
+      <p>Transaction content will go here.</p>
+    </div>
+
+  </div>
+</div>

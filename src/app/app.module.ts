@@ -8,6 +8,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TrackTransactionsComponent } from './components/track-transactions/track-transactions.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -15,6 +18,9 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     AppComponent,
     TrackTransactionsComponent,
     LandingPageComponent,
+    LoginComponent,
+    RegisterComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,108 @@
+
+.full-width {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.admin-table th, .admin-table td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.pagination-controls {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+.admin-table th {
+  background-color: #f0f0f0;
+}
+
+
+.dashboard {
+  display: flex;
+}
+
+.sidebar {
+  background-color: #a8c5d4;
+  padding: 1rem;
+  min-width: 200px;
+  transition: 0.3s;
+  position: relative;
+}
+
+.hamburger {
+  font-size: 2rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+nav a {
+  display: block;
+  margin: 1rem 0;
+  font-weight: bold;
+  color: #1f3c88;
+  text-decoration: none;
+}
+
+nav a.active {
+  text-decoration: underline;
+}
+
+.content {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.section {
+  border: 2px solid black;
+  border-radius: 16px;
+  padding: 1rem;
+  width: 300px;
+}
+
+.status-btn {
+  background-color: #d9edf7;
+  padding: 0.75rem;
+  border-radius: 30px;
+  margin: 0.5rem 0;
+  font-weight: bold;
+  text-align: center;
+}
+
+.status-btn span {
+  margin-left: 0.5rem;
+}
+
+.green span {
+  color: green;
+}
+.orange span {
+  color: orange;
+}
+.red span {
+  color: red;
+}
+.blue {
+  background-color: #90c3d4;
+}

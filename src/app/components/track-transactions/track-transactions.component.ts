@@ -19,6 +19,10 @@ export class TrackTransactionsComponent {
     this.router.navigateByUrl('/home');
   }
 
+   navigateToLogin() {
+    this.router.navigateByUrl('/login');
+  }
+
   track() {
      this.TransactionsService.getTransactionById(this.trackingId).subscribe({
       next: (data) => {

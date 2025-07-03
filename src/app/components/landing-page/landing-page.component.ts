@@ -33,7 +33,7 @@ export class LandingPageComponent implements OnInit {
   }
 
   checkScreenSize() {
-    this.showCircle = window.innerWidth >= 800;
+    this.showCircle = window.innerWidth >= 1500;
   }
 
   toggleMenu() {

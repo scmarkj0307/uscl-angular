@@ -36,7 +36,7 @@ html, body {
 .image-wrapper {
   position: relative;
   display: inline-block;
-  top: -20px;
+  top: -30px;
   cursor: pointer;
 }
 

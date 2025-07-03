@@ -1,9 +1,35 @@
-<h2>Login</h2>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <label>Username:</label>
-  <input formControlName="username" />
-  <label>Password:</label>
-  <input type="password" formControlName="password" />
-  <button type="submit">Login</button>
-  <p *ngIf="errorMsg" style="color:red">{{ errorMsg }}</p>
-</form>
+<div>
+<div class="header">
+  <img src="assets/images/image3.png" alt="USCLC Logo" class="logo"  (click)="navigateToHome()"/>
+  <button class="track-button" (click)="navigateToTransactions()">TRACK NOW!!</button>
+</div>
+
+<div class="main">
+  <div class="container">
+    <img src="assets/images/image6.png" alt="Character" class="character" />
+
+    <div class="login-circle">
+      <h2>Login</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="input-group">
+          <span class="icon">👤</span>
+          <input formControlName="username" placeholder="Username" />
+        </div>
+
+        <div class="input-group">
+          <span class="icon">🔒</span>
+          <input type="password" formControlName="password" placeholder="Password" />
+        </div>
+
+        <button type="submit" class="login-button">
+          LOGIN <span class="arrow">➡️</span>
+        </button>
+
+        <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+</div>

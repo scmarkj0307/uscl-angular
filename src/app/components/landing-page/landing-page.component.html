@@ -1,27 +1,129 @@
 <header>
   <nav>
+    <div class="typing-text">
+      <span>{{ typedText }}</span><span class="cursor">|</span>
+    </div>
+
+
     <div class="burger" (click)="toggleMenu()">☰</div>
+    
     <ul [class.active]="menuOpen">
-      <li><a href="#about">ABOUT</a></li>
-      <li><a href="#brands">BRANDS</a></li>
-      <li><a href="#services">SERVICES</a></li>
-      <li><a href="#contact">CONTACT</a></li>
+      <li><a (click)="scrollToSection('home')">HOME</a></li>
+      <li><a (click)="scrollToSection('about')">ABOUT</a></li>
+      <li><a (click)="scrollToSection('services')">SERVICES</a></li>
+      <li><a (click)="scrollToSection('contact')">CONTACT</a></li>
     </ul>
   </nav>
 </header>
 
-<main>
+
+
+<section id="home" class="home-section" >
   <div class="hero">
-    <div class="circle" *ngIf="showCircle">
-       <img src="assets/images/image5.png" alt="Brand Logo" class="image5">
+      <div class="circle" *ngIf="showCircle">
+        <img src="assets/images/image5.png" alt="Brand Logo" class="image5">
+      </div>
+      
+      <img src="assets/images/image3.png" alt="Brand Logo" class="logo-image">
+
+      <div class="order-tracker" (click)="navigateToTransactions()">
+      <img src="assets/images/image4.png" alt="Product Image">
+      <p>track your order here!!!</p>
     </div>
-    
-    <img src="assets/images/image3.png" alt="Brand Logo" class="logo-image">
-
-    <div class="order-tracker" (click)="navigateToTransactions()">
-    <img src="assets/images/image4.png" alt="Product Image">
-    <p>track your order here!!!</p>
   </div>
 
+</section>
+
+
+
+<section id="about" class="about-section">
+  <div class="carousel-container">
+    <div class="carousel">
+      <div class="carousel-item" [@fadeAnimation]>
+        <img [src]="currentImage" alt="Carousel Image" />
+      </div>
+    </div>
+
+    <!-- Pagination stays just below carousel -->
+    <div class="pagination">
+      <span
+        *ngFor="let image of images; let i = index"
+        [class.active]="i === currentImageIndex"
+        (click)="goToImage(i)"
+      ></span>
+    </div>
   </div>
-</main>
+</section>
+
+<section id="services" class="services-section">
+  <div class="card-container">
+    <div class="service-card"
+         [ngStyle]="{ 'background-image': 'url(' + productImage + ')' }">
+      <h3>Products</h3>
+      <p>Explore our full range of quality products tailored to meet your needs.</p>
+    </div>
+
+    <div class="service-card"
+         [ngStyle]="{ 'background-image': 'url(' + brandImage + ')' }">
+      <h3>Brands</h3>
+      <p>Discover top brands we collaborate with to bring you the best.</p>
+    </div>
+
+    <div class="service-card"
+         [ngStyle]="{ 'background-image': 'url(' + serviceImage + ')' }">
+      <h3>Other Services</h3>
+      <p>From consultation to delivery, we provide a range of helpful services.</p>
+    </div>
+  </div>
+</section>
+
+
+<section id="contact" class="contact-section">
+  <div class="contact-container">
+    <!-- Left: Map & Address Info -->
+    <div class="contact-left">
+      <h2>Reach out to us in the nearest office.</h2>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.932187025858!2d120.97417647415832!3d14.600542676161586!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397cfdd2a7c4c01%3A0x74a276e2c6bbda0!2sUniversal%20Skin%20Cosmeceuticals%20Ltd.%20Co.!5e0!3m2!1sen!2sph!4v1719993365362!5m2!1sen!2sph"
+        width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+
+      <div class="contact-info" >
+        <div><i class="fas fa-map-marker-alt"></i>
+          <p>Lot 1-A 3 Aquino Compound, Molino II, Bacoor, Cavite, Philippines, 4102</p>
+        </div>
+        <div><i class="fas fa-phone-alt"></i>
+          <p>09957741957</p>
+        </div>
+        <div><i class="fas fa-envelope"></i>
+          <p>sales&#64;usclcph.com</p>
+        </div>
+        <div><i class="fas fa-envelope"></i>
+          <p>inquiry&#64;usclc.ph</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Form -->
+    <div class="contact-right">
+      <h2>Leave us a little info, and we'll be in touch.</h2>
+      <form>
+        <input type="text" placeholder="Name *" required>
+        <input type="email" placeholder="Email *" required>
+        <textarea rows="5" placeholder="Project Details *" required></textarea>
+        <button type="submit">SUBMIT</button>
+      </form>
+
+      <div class="social-media">
+        <p>Social Media</p>
+        <div class="icons">
+          <i class="fab fa-facebook-f"></i>
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-tiktok"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

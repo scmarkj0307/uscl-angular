@@ -110,6 +110,11 @@ html, body {
   justify-content: center;
   cursor: pointer;
   margin-left: 50px;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #d9edf7;
 }
 
 .login-button .arrow {

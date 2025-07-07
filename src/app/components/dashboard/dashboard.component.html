@@ -1,76 +1,87 @@
+<!-- index.html or Angular component HTML -->
+<div class="header">
+  <img src="assets/images/image3.png" alt="USCLC Logo" class="logo" />
+  <button class="logout" (click)="logout()">LOG OUT</button>
+</div>
+
 <div class="dashboard">
-  <div class="sidebar" [class.open]="menuOpen">
-    <div class="hamburger" (click)="toggleMenu()">☰</div>
-    <nav>
+  <div class="sidebar">
+    <nav class="sidenav">
       <a (click)="setSection('dashboard')" [class.active]="activeSection === 'dashboard'">Dashboard</a>
       <a (click)="setSection('admins')" [class.active]="activeSection === 'admins'">Admins</a>
       <a (click)="setSection('clients')" [class.active]="activeSection === 'clients'">Clients</a>
       <a (click)="setSection('transactions')" [class.active]="activeSection === 'transactions'">Transactions</a>
-      <a (click)="logout()">Logout</a>
+      <a (click)="setSection('transactions-history')" [class.active]="activeSection === 'transactions-history'">Transactions History</a>
     </nav>
   </div>
 
   <div class="content">
 
-    <!-- Dashboard Overview -->
-    <div *ngIf="activeSection === 'dashboard'" class="overview">
-      <div class="section transactions">
-        <h2>TRANSACTIONS</h2>
-        <div class="status-btn green">4 TRANSACTION <span>ACTIVE</span></div>
-        <div class="status-btn orange">4 TRANSACTION <span>PENDING</span></div>
-        <div class="status-btn red">4 TRANSACTION <span>INACTIVE</span></div>
-      </div>
+  <!-- Dashboard Section -->
+  <div *ngIf="activeSection === 'dashboard'" class="section full-width">
+    <h2 style="font-size: 20px;">DASHBOARD OVERVIEW</h2>
 
-      <div class="section users">
-        <h2>USERS</h2>
-        <div class="status-btn blue">THERE ARE 4 ADMINS <span>ACTIVE</span></div>
-        <div class="status-btn blue">THERE ARE 2 CLIENTS <span>ACTIVE</span></div>
+    <div class="chart-row">
+      <div class="chart-box">
+        <h3 style="font-size: 16px;">Clients</h3>
+        <div echarts [options]="userChartOptions" class="chart-container"></div>
+      </div>
+      
+      <div class="chart-box">
+        <h3 style="font-size: 16px;">Transactions</h3>
+        <div echarts [options]="transactionChartOptions" class="chart-container"></div>
       </div>
     </div>
+  </div>
+
+
+
 
     <!-- Admins Section -->
-    <div *ngIf="activeSection === 'admins'">
-        <table class="admin-table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Created At</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let admin of admins">
-                <td>{{ admin.admin_id }}</td>
-                <td>{{ admin.username }}</td>
-                <td>{{ admin.email }}</td>
-                <td>{{ admin.created_at | date: 'short' }}</td>
-            </tr>
-            </tbody>
-        </table>
+    <div *ngIf="activeSection === 'admins'" class="section full-width">
+      <h2>ADMINS</h2>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Created At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let admin of admins">
+            <td>{{ admin.admin_id }}</td>
+            <td>{{ admin.username }}</td>
+            <td>{{ admin.email }}</td>
+            <td>{{ admin.created_at | date: 'short' }}</td>
+          </tr>
+        </tbody>
+      </table>
 
-        <!-- Pagination -->
-        <div class="pagination-controls">
-            <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
-            <span>Page {{ currentPage }} of {{ totalPages }}</span>
-            <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
-        </div>
+      <div class="pagination-controls">
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+      </div>
     </div>
-
-
 
     <!-- Clients Section -->
     <div *ngIf="activeSection === 'clients'" class="section full-width">
       <h2>CLIENTS</h2>
-      <!-- Add your dynamic client table or data here -->
       <p>Client content will go here.</p>
     </div>
 
     <!-- Transactions Section -->
     <div *ngIf="activeSection === 'transactions'" class="section full-width">
       <h2>TRANSACTIONS</h2>
-      <!-- Add your dynamic transaction table or data here -->
       <p>Transaction content will go here.</p>
+    </div>
+
+    <!-- Transactions History -->
+    <div *ngIf="activeSection === 'transactions-history'" class="section full-width">
+      <h2>TRANSACTIONS HISTORY</h2>
+      <p>Transaction history content will go here.</p>
     </div>
 
   </div>

@@ -3,7 +3,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { AppComponent } from './app.component';
 import { TrackTransactionsComponent } from './components/track-transactions/track-transactions.component';
@@ -28,6 +28,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    })
   ],
   providers: [
     provideClientHydration()

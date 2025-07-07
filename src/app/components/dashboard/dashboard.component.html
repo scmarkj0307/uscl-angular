@@ -69,8 +69,32 @@
     <!-- Clients Section -->
     <div *ngIf="activeSection === 'clients'" class="section full-width">
       <h2>CLIENTS</h2>
-      <p>Client content will go here.</p>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Created At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of clients">
+            <td>{{ client.clientId }}</td>
+            <td>{{ client.clientName }}</td>
+            <td>{{ client.email }}</td>
+            <td>{{ client.created_at | date: 'short' }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pagination-controls">
+        <button (click)="prevClientPage()" [disabled]="currentClientPage === 1">Previous</button>
+        <span>Page {{ currentClientPage }} of {{ totalClientPages }}</span>
+        <button (click)="nextClientPage()" [disabled]="currentClientPage === totalClientPages">Next</button>
+      </div>
     </div>
+
 
     <!-- Transactions Section -->
     <div *ngIf="activeSection === 'transactions'" class="section full-width">

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AdminService, Admin } from '../../services/admin.service';
+import { ClientService, Client } from '../../services/client.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,16 +12,23 @@ import { AdminService, Admin } from '../../services/admin.service';
 export class DashboardComponent {
   menuOpen = false;
   activeSection: string = 'dashboard';
+
+  // Admin data
   currentPage = 1;
   totalPages = 1;
   admins: Admin[] = [];
+
+  // Client data
+  clients: Client[] = [];
+  currentClientPage = 1;
+  totalClientPages = 1;
 
   // Chart options
   transactionChartOptions = {
     tooltip: { trigger: 'axis' },
     xAxis: {
       type: 'category',
-      data: ['Finished', 'Ongoing', 'Pending'],  // Reordered for clarity
+      data: ['Finished', 'Ongoing', 'Pending'],
       axisLabel: { fontSize: 12 }
     },
     yAxis: {
@@ -29,11 +37,11 @@ export class DashboardComponent {
     },
     series: [
       {
-        data: [12, 6, 4], // Update these values as needed
+        data: [12, 6, 4],
         type: 'bar',
         itemStyle: {
           color: (params: any) => {
-            const colors = ['#4CAF50', '#2196F3', '#FF9800']; // Finished, Ongoing, Pending
+            const colors = ['#4CAF50', '#2196F3', '#FF9800'];
             return colors[params.dataIndex];
           }
         },
@@ -46,57 +54,50 @@ export class DashboardComponent {
     ]
   };
 
-
-userChartOptions = {
-  tooltip: {
-    trigger: 'item'
-  },
-  legend: {
-    top: 'bottom',
-    textStyle: {
-      fontSize: 12
-    }
-  },
-  series: [
-    {
-      name: 'Clients',
-      type: 'pie',
-      radius: '60%',
-      data: [
-        { value: 5, name: 'Active' },     // Replace with dynamic value if needed
-        { value: 3, name: 'Inactive' }    // Replace with dynamic value if needed
-      ],
-      label: {
-        fontSize: 12,
-        formatter: '{b}: {d}%'
-      },
-      itemStyle: {
-        color: (params: any) => {
-          const colors: { [key: string]: string } = {
-            'Active': '#2196F3',   // Blue
-            'Inactive': '#F44336'  // Red
-          };
-          return colors[params.name] || '#999';
-        }
-      },
-      emphasis: {
+  userChartOptions = {
+    tooltip: { trigger: 'item' },
+    legend: {
+      top: 'bottom',
+      textStyle: { fontSize: 12 }
+    },
+    series: [
+      {
+        name: 'Clients',
+        type: 'pie',
+        radius: '60%',
+        data: [
+          { value: 5, name: 'Active' },
+          { value: 3, name: 'Inactive' }
+        ],
+        label: {
+          fontSize: 12,
+          formatter: '{b}: {d}%'
+        },
         itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)'
+          color: (params: any) => {
+            const colors: { [key: string]: string } = {
+              'Active': '#2196F3',
+              'Inactive': '#F44336'
+            };
+            return colors[params.name] || '#999';
+          }
+        },
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
         }
       }
-    }
-  ]
-};
-
-
-
+    ]
+  };
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private clientService: ClientService
   ) {}
 
   toggleMenu() {
@@ -107,9 +108,12 @@ userChartOptions = {
     this.activeSection = section;
     if (section === 'admins') {
       this.loadAdmins();
+    } else if (section === 'clients') {
+      this.loadClients();
     }
   }
 
+  // Admin logic
   loadAdmins(page: number = 1) {
     this.adminService.getAdmins(page).subscribe({
       next: (res) => {
@@ -130,6 +134,30 @@ userChartOptions = {
   prevPage() {
     if (this.currentPage > 1) {
       this.loadAdmins(this.currentPage - 1);
+    }
+  }
+
+  // Client logic
+  loadClients(page: number = 1) {
+    this.clientService.getClients(page).subscribe({
+      next: (res) => {
+        this.clients = res.clients;
+        this.currentClientPage = res.page;
+        this.totalClientPages = res.totalPages;
+      },
+      error: (err) => console.error('Failed to load clients', err)
+    });
+  }
+
+  nextClientPage() {
+    if (this.currentClientPage < this.totalClientPages) {
+      this.loadClients(this.currentClientPage + 1);
+    }
+  }
+
+  prevClientPage() {
+    if (this.currentClientPage > 1) {
+      this.loadClients(this.currentClientPage - 1);
     }
   }
 

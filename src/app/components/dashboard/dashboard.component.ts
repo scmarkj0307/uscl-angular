@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AdminService, Admin } from '../../services/admin.service';
 import { ClientService, Client } from '../../services/client.service';
+import { TransactionsService, Transaction } from '../../services/transactions.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,6 +13,7 @@ import { ClientService, Client } from '../../services/client.service';
 export class DashboardComponent {
   menuOpen = false;
   activeSection: string = 'dashboard';
+  filterClientName: string = '';
 
   // Admin data
   currentPage = 1;
@@ -22,6 +24,17 @@ export class DashboardComponent {
   clients: Client[] = [];
   currentClientPage = 1;
   totalClientPages = 1;
+
+  //transactions data
+  transactions: Transaction[] = [];
+  currentTransactionPage = 1;
+  totalTransactionPages = 1;
+
+  //transactions history data
+  transactionsHistory: Transaction[] = [];
+  currentHistoryPage = 1;
+  totalHistoryPages = 1;
+
 
   // Chart options
   transactionChartOptions = {
@@ -97,21 +110,27 @@ export class DashboardComponent {
     private authService: AuthService,
     private router: Router,
     private adminService: AdminService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private transactionsService: TransactionsService 
   ) {}
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
 
-  setSection(section: string) {
-    this.activeSection = section;
-    if (section === 'admins') {
-      this.loadAdmins();
-    } else if (section === 'clients') {
-      this.loadClients();
-    }
+ setSection(section: string) {
+  this.activeSection = section;
+  if (section === 'admins') {
+    this.loadAdmins();
+  } else if (section === 'clients') {
+    this.loadClients();
+  } else if (section === 'transactions') {
+    this.loadTransactions();
+  } else if (section === 'transactions-history') {
+    this.loadTransactionHistory();
   }
+}
+
 
   // Admin logic
   loadAdmins(page: number = 1) {
@@ -165,4 +184,52 @@ export class DashboardComponent {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
+  loadTransactions(page: number = 1) {
+  this.transactionsService.getTransactions(page).subscribe({
+    next: (res) => {
+      this.transactions = res.transactions;
+      this.currentTransactionPage = res.page;
+      this.totalTransactionPages = res.totalPages;
+    },
+    error: (err) => console.error('Failed to load transactions', err)
+  });
+}
+
+nextTransactionPage() {
+  if (this.currentTransactionPage < this.totalTransactionPages) {
+    this.loadTransactions(this.currentTransactionPage + 1);
+  }
+}
+
+prevTransactionPage() {
+  if (this.currentTransactionPage > 1) {
+    this.loadTransactions(this.currentTransactionPage - 1);
+  }
+}
+
+loadTransactionHistory(page: number = 1) {
+  this.transactionsService.getTransactionHistory(page, 10, this.filterClientName).subscribe({
+    next: (res) => {
+      this.transactionsHistory = res.history;
+      this.currentHistoryPage = res.page;
+      this.totalHistoryPages = res.totalPages;
+    },
+    error: (err) => console.error('Failed to load transaction history', err)
+  });
+}
+
+nextHistoryPage() {
+  if (this.currentHistoryPage < this.totalHistoryPages) {
+    this.loadTransactionHistory(this.currentHistoryPage + 1);
+  }
+}
+
+prevHistoryPage() {
+  if (this.currentHistoryPage > 1) {
+    this.loadTransactionHistory(this.currentHistoryPage - 1);
+  }
+}
+
+
 }

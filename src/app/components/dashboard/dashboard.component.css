@@ -253,3 +253,49 @@ button:disabled {
     gap: 0.5rem;
   }
 }
+
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 10px 0;
+}
+
+.filter-section label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.filter-section input[type="text"] {
+  flex: 1 1 200px;
+  min-width: 150px;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.filter-section input[type="text"]:focus {
+  border-color: #007BFF;
+}
+
+.filter-section button {
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.filter-section button:hover {
+  background-color: #0056b3;
+}
+

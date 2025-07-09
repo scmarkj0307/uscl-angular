@@ -41,7 +41,11 @@
 
     <!-- Admins Section -->
     <div *ngIf="activeSection === 'admins'" class="section full-width">
-      <h2  style="font-size: 20px;" >ADMINS</h2>
+      <div class="admin-header">
+        <h2>ADMINS</h2>
+        <button class="register-button" (click)="openRegisterModal()">Register Admin</button>
+      </div>
+
         <div class="table-wrapper">
           <table class="admin-table">
             <thead>
@@ -67,6 +71,27 @@
         <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
         <span>Page {{ currentPage }} of {{ totalPages }}</span>
         <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+      </div>
+    </div>
+
+    <div class="modal" *ngIf="showRegisterModal">
+      <div class="modal-content">
+        <h3>Register Admin</h3>
+        <form (submit)="registerAdmin()">
+          <label>Username:</label>
+          <input [(ngModel)]="newAdmin.username" name="username" required />
+          
+          <label>Email:</label>
+          <input [(ngModel)]="newAdmin.email" name="email" required type="email" />
+          
+          <label>Password:</label>
+          <input [(ngModel)]="newAdmin.password" name="password" required type="password" />
+          
+          <div class="modal-actions">
+            <button type="submit">Register</button>
+            <button type="button" (click)="closeRegisterModal()">Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
 

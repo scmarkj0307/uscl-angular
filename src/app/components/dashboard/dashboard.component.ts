@@ -14,6 +14,8 @@ export class DashboardComponent {
   menuOpen = false;
   activeSection: string = 'dashboard';
   filterClientName: string = '';
+  showRegisterModal = false;
+  newAdmin = { username: '', email: '', password: '' };
 
   // Admin data
   currentPage = 1;
@@ -231,5 +233,32 @@ prevHistoryPage() {
   }
 }
 
+openRegisterModal() {
+  this.showRegisterModal = true;
+}
+
+closeRegisterModal() {
+  this.showRegisterModal = false;
+  this.newAdmin = { username: '', email: '', password: '' };
+}
+
+registerAdmin() {
+  this.authService.register(this.newAdmin).subscribe({
+    next: (res) => {
+      alert('Admin registered successfully!');
+      this.closeRegisterModal();
+      this.loadAdmins(); // Reload the admins table
+    },
+    error: (err) => {
+      console.error('Register error:', err);
+      const msg = err.error?.message || 'Registration failed';
+      alert(msg);
+    }
+  });
+}
+
+
 
 }
+
+

@@ -2,13 +2,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 html, body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #fff;
   height: 100vh;
 }
@@ -21,6 +20,8 @@ html, body {
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .logo {
@@ -41,6 +42,8 @@ html, body {
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .track-button:hover {
@@ -84,6 +87,8 @@ html, body {
   padding: 10px;
   border-radius: 5px;
   color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .input-group .icon {
@@ -96,6 +101,8 @@ html, body {
   flex: 1;
   background: transparent;
   font-size: 14px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .login-button {
@@ -112,6 +119,8 @@ html, body {
   cursor: pointer;
   margin-left: 50px;
   transition: background-color 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .login-button:hover {
@@ -123,10 +132,19 @@ html, body {
 }
 
 .error {
-  color: red;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #c40000; /* deeper red */
+  font-weight: bold; /* make it bold */
   text-align: center;
   margin-top: 10px;
+  text-shadow:
+    -1px -1px 0 white,
+     1px -1px 0 white,
+    -1px  1px 0 white,
+     1px  1px 0 white;
 }
+
+
 
 
 @media (max-width: 610px) {
@@ -155,6 +173,13 @@ html, body {
   .container {
     justify-content: center;
   }
+}
+
+
+.input-group .icon {
+  margin-right: 10px;
+  font-size: 16px;
+  color: #1d3e60; /* optional: make it match your brand */
 }
 
 

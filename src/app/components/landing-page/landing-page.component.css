@@ -1,9 +1,4 @@
 /* Global styles */
-* {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-
 html {
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
@@ -13,11 +8,6 @@ body {
   margin: 0;
   background-color: white;
   color: #1d3e60;
-}
-
-* {
-
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Section layout for full view */
@@ -32,9 +22,18 @@ section {
   align-items: center;
 }
 
+.home-section {
+    margin-top: -30px; /* Adjust the value as needed */
+}
+
+.about-section {
+    margin-top: -30px; /* Adjust the value as needed */
+}
+
 /* Reduce height on smaller screens */
 @media (max-width: 768px) {
   section {
+    margin-top: -30px;
     min-height: auto;
     height: auto;
     padding-top: 100px; /* Add extra top space to prevent overlap */
@@ -51,6 +50,7 @@ section {
 }
 
 .services-section {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-top: 2rem;
 }
 
@@ -63,12 +63,13 @@ section {
 
 /* Header and navigation */
 header nav {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding: 1rem;
   position: fixed; /* fixed navbar */
-  top: 0;
+  top: -15px;
   left: 0;
   width: 100%;
   background-color: white;
@@ -307,6 +308,7 @@ header nav ul li a:hover {
 
 .typing-text {
   padding-top: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: clamp(1.5rem, 2.5vw, 1.5rem); /* Responsive font size */
   font-weight: bold;
   color: #1d3e60;
@@ -440,15 +442,18 @@ header nav ul li a:hover {
 }
 
 .contact-left, .contact-right {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   flex: 1 1 500px;
 }
 
 .contact-left h2, .contact-right h2 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1.4rem;
   margin-bottom: 1rem;
 }
 
 .contact-info {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-top: 1rem;
 }
 
@@ -558,6 +563,7 @@ footer {
 }
 
 footer p {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
 }
 

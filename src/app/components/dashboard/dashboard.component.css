@@ -196,8 +196,8 @@ nav a.active {
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 600;
-  color: #fff;
-  background-color: #2c406a;
+  color: black;
+  background-color: #d9edf7;
   border: none;
   border-radius: 8px;
   transition: background-color 0.3s, transform 0.2s;
@@ -205,6 +205,7 @@ nav a.active {
 }
 
 .pagination-controls button:hover:not(:disabled) {
+  color: white;
   background-color: #1f2f4d;
   transform: translateY(-1px);
 }

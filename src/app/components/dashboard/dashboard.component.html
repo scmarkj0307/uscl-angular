@@ -20,16 +20,18 @@
   <!-- Dashboard Section -->
   <div *ngIf="activeSection === 'dashboard'" class="section full-width">
     <h2 style="font-size: 20px;">DASHBOARD OVERVIEW</h2>
+    <div class="table-wrapper">
 
-    <div class="chart-row">
-      <div class="chart-box">
-        <h3 style="font-size: 16px;">Clients</h3>
-        <div echarts [options]="userChartOptions" class="chart-container"></div>
-      </div>
-      
-      <div class="chart-box">
-        <h3 style="font-size: 16px;">Transactions</h3>
-        <div echarts [options]="transactionChartOptions" class="chart-container"></div>
+      <div class="chart-row">
+        <div class="chart-box">
+          <h3 style="font-size: 16px;">Clients</h3>
+          <div echarts [options]="userChartOptions" class="chart-container"></div>
+        </div>
+        
+        <div class="chart-box">
+          <h3 style="font-size: 16px;">Transactions</h3>
+          <div echarts [options]="transactionChartOptions" class="chart-container"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -40,27 +42,29 @@
     <!-- Admins Section -->
     <div *ngIf="activeSection === 'admins'" class="section full-width">
       <h2  style="font-size: 20px;" >ADMINS</h2>
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Created At</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let admin of admins">
-            <td>{{ admin.admin_id }}</td>
-            <td>{{ admin.username }}</td>
-            <td>{{ admin.email }}</td>
-            <td>{{ admin.created_at | date: 'short' }}</td>
-          </tr>
-        </tbody>
-      </table>
+        <div class="table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let admin of admins">
+                <td>{{ admin.admin_id }}</td>
+                <td>{{ admin.username }}</td>
+                <td>{{ admin.email }}</td>
+                <td>{{ admin.created_at | date: 'short' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
       <div class="pagination-controls">
-        <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+        <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
         <span>Page {{ currentPage }} of {{ totalPages }}</span>
         <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
       </div>
@@ -69,27 +73,29 @@
     <!-- Clients Section -->
     <div *ngIf="activeSection === 'clients'" class="section full-width">
       <h2  style="font-size: 20px;">CLIENTS</h2>
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Created At</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let client of clients">
-            <td>{{ client.clientId }}</td>
-            <td>{{ client.clientName }}</td>
-            <td>{{ client.email }}</td>
-            <td>{{ client.created_at | date: 'short' }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let client of clients">
+              <td>{{ client.clientId }}</td>
+              <td>{{ client.clientName }}</td>
+              <td>{{ client.email }}</td>
+              <td>{{ client.created_at | date: 'short' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div class="pagination-controls">
-        <button (click)="prevClientPage()" [disabled]="currentClientPage === 1">Previous</button>
+        <button (click)="prevClientPage()" [disabled]="currentClientPage === 1">Prev</button>
         <span>Page {{ currentClientPage }} of {{ totalClientPages }}</span>
         <button (click)="nextClientPage()" [disabled]="currentClientPage === totalClientPages">Next</button>
       </div>
@@ -99,29 +105,32 @@
    <!-- Transactions Section -->
 <div *ngIf="activeSection === 'transactions'" class="section full-width">
   <h2 style="font-size: 20px;">TRANSACTIONS</h2>
-  <table class="admin-table">
-    <thead>
-      <tr>
-        <th>Tracking Id</th>
-        <th>Client</th>
-        <th>Tracking Message</th>
-        <th>Status ID</th>
-        <th>Created At</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let transaction of transactions">
-        <td>{{ transaction.trackingId }}</td>
-        <td>{{ transaction.clientName }}</td>
-        <td>{{ transaction.trackingMessage }}</td>
-        <td>{{ transaction.trackingStatusId }}</td>
-        <td>{{ transaction.created_at | date: 'short' }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-wrapper">
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Tracking Id</th>
+          <th>Client</th>
+          <th>Tracking Message</th>
+          <th>Status ID</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of transactions">
+          <td>{{ transaction.trackingId }}</td>
+          <td>{{ transaction.clientName }}</td>
+          <td>{{ transaction.trackingMessage }}</td>
+          <td>{{ transaction.trackingStatusId }}</td>
+          <td>{{ transaction.created_at | date: 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <div class="pagination-controls">
-    <button (click)="prevTransactionPage()" [disabled]="currentTransactionPage === 1">Previous</button>
+    <button (click)="prevTransactionPage()" [disabled]="currentTransactionPage === 1">Prev</button>
     <span>Page {{ currentTransactionPage }} of {{ totalTransactionPages }}</span>
     <button (click)="nextTransactionPage()" [disabled]="currentTransactionPage === totalTransactionPages">Next</button>
   </div>
@@ -143,39 +152,36 @@
     <button (click)="loadTransactionHistory(1)">Search</button>
   </div>
 
-  <table class="admin-table">
-    <thead>
-      <tr>
-        <th>History ID</th>
-        <th>Tracking ID</th>
-        <th>Client</th>
-        <th>Message</th>
-        <th>Status</th>
-        <th>Created At</th>
-        <th>Changed At</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let history of transactionsHistory">
-        <td>{{ history.historyId }}</td>
-        <td>{{ history.trackingId }}</td>
-        <td>{{ history.clientName }}</td>
-        <td>{{ history.trackingMessage }}</td>
-        <td>{{ history.trackingStatusId }}</td>
-        <td>{{ history.created_at | date: 'short' }}</td>
-        <td>{{ history.changed_at | date: 'short' }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-wrapper">
+      <table class="admin-table">
+      <thead>
+        <tr>
+          <th>History ID</th>
+          <th>Tracking ID</th>
+          <th>Client</th>
+          <th>Message</th>
+          <th>Status</th>
+          <th>Created At</th>
+          <th>Changed At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let history of transactionsHistory">
+          <td>{{ history.historyId }}</td>
+          <td>{{ history.trackingId }}</td>
+          <td>{{ history.clientName }}</td>
+          <td>{{ history.trackingMessage }}</td>
+          <td>{{ history.trackingStatusId }}</td>
+          <td>{{ history.created_at | date: 'short' }}</td>
+          <td>{{ history.changed_at | date: 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <div class="pagination-controls">
-    <button (click)="prevHistoryPage()" [disabled]="currentHistoryPage === 1">Previous</button>
+    <button (click)="prevHistoryPage()" [disabled]="currentHistoryPage === 1">Prev</button>
     <span>Page {{ currentHistoryPage }} of {{ totalHistoryPages }}</span>
     <button (click)="nextHistoryPage()" [disabled]="currentHistoryPage === totalHistoryPages">Next</button>
-  </div>
-</div>
-
-
-
   </div>
 </div>

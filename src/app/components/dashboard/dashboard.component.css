@@ -3,6 +3,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Header */
@@ -99,7 +100,7 @@ nav a.active {
 
 .chart-box {
   flex: 1 1 48%; /* each takes about 48% to fit side by side with spacing */
-  background: #d9edf7;
+  background: white;
   padding: 16px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -133,14 +134,24 @@ nav a.active {
 
 /* Fixed-height sections */
 .section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* ensures footer (pagination) stays at bottom */
   flex: 1;
-  min-height: calc(100vh - 140px); /* Fixed height under header */
+  min-height: calc(100vh - 140px);
   overflow-y: auto;
   border: 2px solid #2c406a;
   border-radius: 16px;
   padding: 1rem;
   background-color: #fff;
 }
+
+.table-wrapper {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+
 
 .full-width {
   width: 100%;
@@ -166,17 +177,50 @@ nav a.active {
 
 /* Pagination */
 .pagination-controls {
-  margin-top: 10px;
+  position: sticky;
+  bottom: 10px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   gap: 1rem;
   align-items: center;
+  background-color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  cursor: pointer;
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.pagination-controls button {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #2c406a;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.2s;
+  cursor: pointer;
 }
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #1f2f4d;
+  transform: translateY(-1px);
+}
+
+.pagination-controls button:disabled {
+  background-color: #a9b1c1;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pagination-controls span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
 
 /* Status Buttons */
 .status-btn {
@@ -186,6 +230,7 @@ button:disabled {
   margin: 0.5rem 0;
   font-weight: bold;
   text-align: center;
+   cursor: pointer;
 }
 
 .status-btn span {
@@ -298,4 +343,6 @@ button:disabled {
 .filter-section button:hover {
   background-color: #0056b3;
 }
+
+
 

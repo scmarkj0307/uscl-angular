@@ -158,7 +158,10 @@
 
    <!-- Transactions Section -->
 <div *ngIf="activeSection === 'transactions'" class="section full-width">
-  <h2 style="font-size: 20px;">TRANSACTIONS</h2>
+   <div class="admin-header">
+     <h2>TRANSACTIONS</h2>
+     <button class="register-button" (click)="openTransactionModal()"> Create New Transaction</button>
+   </div>
   <div class="table-wrapper">
 
     <table class="admin-table">
@@ -167,7 +170,7 @@
           <th>Tracking Id</th>
           <th>Client</th>
           <th>Tracking Message</th>
-          <th>Status ID</th>
+          <th>Status</th>
           <th>Date Created</th>
         </tr>
       </thead>
@@ -176,7 +179,7 @@
           <td>{{ transaction.trackingId }}</td>
           <td>{{ transaction.clientName }}</td>
           <td>{{ transaction.trackingMessage }}</td>
-          <td>{{ transaction.trackingStatusId }}</td>
+          <td>{{ transaction.statusName }}</td>
           <td>{{ transaction.created_at | date: 'short' }}</td>
         </tr>
       </tbody>
@@ -189,6 +192,36 @@
     <button (click)="nextTransactionPage()" [disabled]="currentTransactionPage === totalTransactionPages">Next</button>
   </div>
 </div>
+
+<div class="modal-overlay" *ngIf="showTransactionModal">
+  <div class="modal">
+    <h2>Create New Transaction</h2>
+
+    <label>Client:</label>
+    <select [(ngModel)]="newTransaction.clientId">
+      <option *ngFor="let client of clients" [ngValue]="client.clientId">
+        {{ client.clientName }}
+      </option>
+    </select>
+
+    <label>Message:</label>
+    <input type="text" [(ngModel)]="newTransaction.trackingMessage" />
+
+    <label>Status:</label>
+    <select [(ngModel)]="newTransaction.trackingStatusId">
+      <option [ngValue]="1">Pending</option>
+      <option [ngValue]="2">Ongoing</option>
+      <option [ngValue]="3">Finished</option>
+    </select>
+
+    <div class="modal-buttons">
+      <button (click)="addTransaction()">Create</button>
+      <button (click)="closeTransactionModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
 
   
  <!-- Transactions History -->
@@ -224,7 +257,7 @@
           <td>{{ history.trackingId }}</td>
           <td>{{ history.clientName }}</td>
           <td>{{ history.trackingMessage }}</td>
-          <td>{{ history.trackingStatusId }}</td>
+          <td>{{ history.statusName }}</td>
           <td>{{ history.created_at | date: 'short' }}</td>
           <td>{{ history.changed_at | date: 'short' }}</td>
         </tr>

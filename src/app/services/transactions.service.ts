@@ -11,13 +11,14 @@ export interface Transaction {
   trackingStatusId: number;
   created_at: string;
   changed_at?: string;
+  statusName: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionsService {
-  private baseUrl = 'http://localhost:3000/api';
+  private readonly baseUrl = 'http://localhost:3000/api';
 
   constructor(private http: HttpClient) {}
 
@@ -61,4 +62,12 @@ export class TransactionsService {
     }>(url);
   }
 
+  addTransaction(transaction: {
+    clientId: number;
+    trackingMessage: string;
+    trackingStatusId: number;
+  }): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.baseUrl}/transactions`, transaction);
+  }
 }
+

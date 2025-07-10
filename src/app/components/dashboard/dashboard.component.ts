@@ -20,9 +20,19 @@ export class DashboardComponent {
   { value: 0, name: 'Active' },
   { value: 0, name: 'Inactive' }
   ];
+  transactionChartData = [
+    { value: 0, name: 'Finished' },
+    { value: 0, name: 'Ongoing' },
+    { value: 0, name: 'Pending' }
+  ];
   showClientModal = false;
   newClient = { clientName: '', email: '', isActive: true };
-
+  showTransactionModal = false;
+  newTransaction = {
+    clientId: 0,
+    trackingMessage: '',
+    trackingStatusId: 1
+  };
 
 
   // Admin data
@@ -60,7 +70,7 @@ export class DashboardComponent {
     },
     series: [
       {
-        data: [12, 6, 4],
+        data: this.transactionChartData.map(d => d.value),
         type: 'bar',
         itemStyle: {
           color: (params: any) => {
@@ -223,16 +233,40 @@ loadClients(page: number = 1) {
     this.router.navigate(['/login']);
   }
 
-  loadTransactions(page: number = 1) {
+loadTransactions(page: number = 1) {
   this.transactionsService.getTransactions(page).subscribe({
     next: (res) => {
       this.transactions = res.transactions;
       this.currentTransactionPage = res.page;
       this.totalTransactionPages = res.totalPages;
+
+      // Count status occurrences
+      const finished = this.transactions.filter(t => t.statusName === 'Finished').length;
+      const ongoing = this.transactions.filter(t => t.statusName === 'Ongoing').length;
+      const pending = this.transactions.filter(t => t.statusName === 'Pending').length;
+
+      // Update chart data
+      this.transactionChartData = [
+        { value: finished, name: 'Finished' },
+        { value: ongoing, name: 'Ongoing' },
+        { value: pending, name: 'Pending' }
+      ];
+
+      // Rebuild chart options with updated data
+      this.transactionChartOptions = {
+        ...this.transactionChartOptions,
+        series: [
+          {
+            ...this.transactionChartOptions.series[0],
+            data: this.transactionChartData.map(d => d.value)
+          }
+        ]
+      };
     },
     error: (err) => console.error('Failed to load transactions', err)
   });
 }
+
 
 nextTransactionPage() {
   if (this.currentTransactionPage < this.totalTransactionPages) {
@@ -325,6 +359,36 @@ addClient() {
     error: (err) => {
       console.error('Failed to add client:', err);
       const msg = err.error?.error || 'Adding client failed';
+      alert(msg);
+    }
+  });
+}
+
+
+openTransactionModal() {
+  this.showTransactionModal = true;
+}
+
+closeTransactionModal() {
+  this.showTransactionModal = false;
+  this.newTransaction = { clientId: 0, trackingMessage: '', trackingStatusId: 1 };
+}
+
+addTransaction() {
+  if (!this.newTransaction.clientId || !this.newTransaction.trackingMessage) {
+    alert('Client and Message are required.');
+    return;
+  }
+
+  this.transactionsService.addTransaction(this.newTransaction).subscribe({
+    next: () => {
+      alert('Transaction added successfully!');
+      this.closeTransactionModal();
+      this.loadTransactions(); // reload transactions list
+    },
+    error: (err) => {
+      console.error('Failed to add transaction:', err);
+      const msg = err.error?.error || 'Adding transaction failed';
       alert(msg);
     }
   });

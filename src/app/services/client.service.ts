@@ -8,6 +8,7 @@ export interface Client {
   clientName: string;
   email: string;
   created_at: string;
+  status: string; 
 }
 
 @Injectable({
@@ -26,4 +27,9 @@ export class ClientService {
   }> {
     return this.http.get<any>(`${this.apiUrl}?page=${page}&limit=${limit}`);
   }
+
+  addClient(clientData: { clientName: string; email: string; isActive: boolean }): Observable<any> {
+    return this.http.post(this.apiUrl, clientData);
+  }
+
 }

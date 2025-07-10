@@ -53,7 +53,7 @@
                 <th>ID</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Created At</th>
+                <th>Date Created</th>
               </tr>
             </thead>
             <tbody>
@@ -97,7 +97,10 @@
 
     <!-- Clients Section -->
     <div *ngIf="activeSection === 'clients'" class="section full-width">
-      <h2  style="font-size: 20px;">CLIENTS</h2>
+      <div class="admin-header">
+          <h2>CLIENTS</h2>
+          <button class="register-button" (click)="openClientModal()">Add Client</button>
+      </div>
       <div class="table-wrapper">
         <table class="admin-table">
           <thead>
@@ -105,7 +108,8 @@
               <th>ID</th>
               <th>Name</th>
               <th>Email</th>
-              <th>Created At</th>
+              <th>Status</th>
+              <th>Date Created</th>
             </tr>
           </thead>
           <tbody>
@@ -113,6 +117,7 @@
               <td>{{ client.clientId }}</td>
               <td>{{ client.clientName }}</td>
               <td>{{ client.email }}</td>
+              <td>{{ client.status }}</td>
               <td>{{ client.created_at | date: 'short' }}</td>
             </tr>
           </tbody>
@@ -125,6 +130,30 @@
         <button (click)="nextClientPage()" [disabled]="currentClientPage === totalClientPages">Next</button>
       </div>
     </div>
+
+    <!-- Add Client Modal -->
+    <div *ngIf="showClientModal" class="modal">
+      <div class="modal-content">
+        <h3>Add New Client</h3>
+        <label>Name:</label>
+        <input [(ngModel)]="newClient.clientName" type="text" required />
+        
+        <label>Email:</label>
+        <input [(ngModel)]="newClient.email" type="email" required />
+
+        <label>Status:</label>
+        <select [(ngModel)]="newClient.isActive">
+          <option [ngValue]="true">Active</option>
+          <option [ngValue]="false">Inactive</option>
+        </select>
+
+        <div class="modal-buttons">
+          <button (click)="addClient()">Submit</button>
+          <button (click)="closeClientModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
 
 
    <!-- Transactions Section -->
@@ -139,7 +168,7 @@
           <th>Client</th>
           <th>Tracking Message</th>
           <th>Status ID</th>
-          <th>Created At</th>
+          <th>Date Created</th>
         </tr>
       </thead>
       <tbody>
@@ -165,7 +194,6 @@
  <!-- Transactions History -->
 <div *ngIf="activeSection === 'transactions-history'" class="section full-width">
   <h2 style="font-size: 20px;">TRANSACTIONS HISTORY</h2>
-
   <div class="filter-section">
     <label for="clientName">Filter by Client Name:</label>
     <input
@@ -186,7 +214,7 @@
           <th>Client</th>
           <th>Message</th>
           <th>Status</th>
-          <th>Created At</th>
+          <th>Date Created</th>
           <th>Changed At</th>
         </tr>
       </thead>

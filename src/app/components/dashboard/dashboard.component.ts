@@ -16,6 +16,14 @@ export class DashboardComponent {
   filterClientName: string = '';
   showRegisterModal = false;
   newAdmin = { username: '', email: '', password: '' };
+  userChartData = [
+  { value: 0, name: 'Active' },
+  { value: 0, name: 'Inactive' }
+  ];
+  showClientModal = false;
+  newClient = { clientName: '', email: '', isActive: true };
+
+
 
   // Admin data
   currentPage = 1;
@@ -80,10 +88,7 @@ export class DashboardComponent {
         name: 'Clients',
         type: 'pie',
         radius: '60%',
-        data: [
-          { value: 5, name: 'Active' },
-          { value: 3, name: 'Inactive' }
-        ],
+        data: this.userChartData,
         label: {
           fontSize: 12,
           formatter: '{b}: {d}%'
@@ -115,6 +120,13 @@ export class DashboardComponent {
     private clientService: ClientService,
     private transactionsService: TransactionsService 
   ) {}
+
+  ngOnInit() {
+    if (this.activeSection === 'dashboard') {
+      this.loadClients();        // 👈 Load chart data on load
+      this.loadTransactions();   // 👈 preload transaction data
+    }
+  }
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
@@ -159,16 +171,40 @@ export class DashboardComponent {
   }
 
   // Client logic
-  loadClients(page: number = 1) {
-    this.clientService.getClients(page).subscribe({
-      next: (res) => {
-        this.clients = res.clients;
-        this.currentClientPage = res.page;
-        this.totalClientPages = res.totalPages;
-      },
-      error: (err) => console.error('Failed to load clients', err)
-    });
-  }
+loadClients(page: number = 1) {
+  this.clientService.getClients(page).subscribe({
+    next: (res) => {
+      this.clients = res.clients;
+      this.currentClientPage = res.page;
+      this.totalClientPages = res.totalPages;
+
+      const activeCount = this.clients.filter(c => c.status === 'Active').length;
+      const inactiveCount = this.clients.filter(c => c.status === 'Inactive').length;
+
+      // Replace array reference so Angular detects changes
+      this.userChartData = [
+        { value: activeCount, name: 'Active' },
+        { value: inactiveCount, name: 'Inactive' }
+      ];
+
+      // Optional: If you're binding `userChartOptions.series[0].data` dynamically,
+      // you might need to update the `userChartOptions` to force update
+      this.userChartOptions = {
+        ...this.userChartOptions,
+        series: [
+          {
+            ...this.userChartOptions.series[0],
+            data: this.userChartData
+          }
+        ]
+      };
+    },
+    error: (err) => console.error('Failed to load clients', err)
+  });
+}
+
+
+
 
   nextClientPage() {
     if (this.currentClientPage < this.totalClientPages) {
@@ -256,6 +292,45 @@ registerAdmin() {
     }
   });
 }
+
+openClientModal() {
+  this.showClientModal = true;
+}
+
+closeClientModal() {
+  this.showClientModal = false;
+  this.newClient = { clientName: '', email: '', isActive: true };
+}
+
+addClient() {
+  const { clientName, email, isActive } = this.newClient;
+
+  if (!clientName || !email) {
+    alert('Name and Email are required.');
+    return;
+  }
+
+  const clientPayload = {
+    clientName,
+    email,
+    isActive
+  };
+
+  this.clientService.addClient(clientPayload).subscribe({
+    next: () => {
+      alert('Client added successfully!');
+      this.closeClientModal();
+      this.loadClients();
+    },
+    error: (err) => {
+      console.error('Failed to add client:', err);
+      const msg = err.error?.error || 'Adding client failed';
+      alert(msg);
+    }
+  });
+}
+
+
 
 
 

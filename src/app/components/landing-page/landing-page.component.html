@@ -4,10 +4,13 @@
       <span>{{ typedText }}</span><span class="cursor">|</span>
     </div>
 
+    <!-- Burger menu icon -->
+   <div class="burger" (click)="toggleMenu()">
+      {{ menuOpen ? '✕' : '☰' }}
+    </div>
 
-    <div class="burger" (click)="toggleMenu()">☰</div>
-    
-    <ul [class.active]="menuOpen">
+    <!-- Desktop nav links -->
+    <ul class="desktop-nav">
       <li><a (click)="scrollToSection('home')">HOME</a></li>
       <li><a (click)="scrollToSection('about')">ABOUT</a></li>
       <li><a (click)="scrollToSection('services')">SERVICES</a></li>
@@ -15,6 +18,21 @@
     </ul>
   </nav>
 </header>
+
+
+    <!-- Sidebar & Overlay -->
+    <div *ngIf="menuOpen" class="sidebar-wrapper">
+      <div class="sidebar open">
+        <ul>
+          <li><a (click)="scrollToSection('home'); toggleMenu()">HOME</a></li>
+          <li><a (click)="scrollToSection('about'); toggleMenu()">ABOUT</a></li>
+          <li><a (click)="scrollToSection('services'); toggleMenu()">SERVICES</a></li>
+          <li><a (click)="scrollToSection('contact'); toggleMenu()">CONTACT</a></li>
+        </ul>
+      </div>
+      <div class="overlay" (click)="toggleMenu()"></div>
+    </div>
+
 
 
 
@@ -26,10 +44,11 @@
       
       <img src="assets/images/image3.png" alt="Brand Logo" class="logo-image">
 
-      <div class="order-tracker" (click)="navigateToTransactions()">
-      <img src="assets/images/image4.png" alt="Product Image">
-      <p>track your order here!!!</p>
-    </div>
+      <div class="order-tracker" (click)="navigateToTransactions()" role="button" tabindex="0">
+        <img src="assets/images/image4.png" alt="Track your order" />
+        <p>Track your order here!</p>
+      </div>
+
   </div>
 
 </section>
@@ -125,11 +144,11 @@
       </div>
     </div>
   </div>
-</section>
-
-
+  
 <footer>
   <p>&copy; 2025 Universal Skin Cosmeceuticals Ltd. Co. All rights reserved.</p>
 </footer>
+</section>
+
 
 

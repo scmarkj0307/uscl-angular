@@ -35,6 +35,8 @@ import { Subscription } from 'rxjs';
 export class LandingPageComponent implements OnInit, OnDestroy {
   showCircle = true;
   menuOpen = false;
+  menuJustToggled = false;
+
   isBrowser: boolean;
   images: string[] = [
     'assets/about/c1.png',
@@ -62,14 +64,22 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
-ngOnInit(): void {
-  if (this.isBrowser) {
-    this.checkScreenSize();
-    this.startCarousel();
-    this.typeLoop()
+  ngOnInit(): void {
+    if (this.isBrowser) {
+      this.startCarousel();
+      this.typeLoop();
+    }
   }
-}
 
+  @HostListener('document:keydown.enter', ['$event'])
+  @HostListener('document:keydown.space', ['$event'])
+  handleKeyboard(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('order-tracker')) {
+      this.navigateToTransactions();
+      event.preventDefault();
+    }
+  }
 
 
   ngOnDestroy(): void {
@@ -77,19 +87,14 @@ ngOnInit(): void {
     if (this.routerEventsSub) this.routerEventsSub.unsubscribe(); // 🆕
   }
 
-  @HostListener('window:resize')
-  onResize() {
-    if (this.isBrowser) {
-      this.checkScreenSize();
-    }
-  }
-
-  checkScreenSize(): void {
-    this.showCircle = window.innerWidth >= 1500;
-  }
-
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
+    this.menuJustToggled = true;
+
+    setTimeout(() => {
+    this.menuJustToggled = false;
+    }, 300); // matches animation duration
+
   }
 
   navigateToTransactions(): void {

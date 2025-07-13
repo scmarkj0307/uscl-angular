@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { AdminService, Admin } from '../../services/admin.service';
 import { ClientService, Client } from '../../services/client.service';
 import { TransactionsService, Transaction } from '../../services/transactions.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +12,8 @@ import { TransactionsService, Transaction } from '../../services/transactions.se
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+  transactionChartOptions: any; // Define type as any or EChartsOption for flexibility
+  userChartOptions: any; // Define type as any or EChartsOption for flexibility
   menuOpen = false;
   activeSection: string = 'dashboard';
   filterClientName: string = '';
@@ -27,6 +30,10 @@ export class DashboardComponent {
   ];
   showClientModal = false;
   newClient = { clientName: '', email: '', isActive: true };
+  showUpdateClientModal = false;
+  selectedClient: any = null;
+  showUpdateAdminModal = false;
+  selectedAdmin: any = null;
   showTransactionModal = false;
   newTransaction = {
     clientId: 0,
@@ -55,86 +62,89 @@ export class DashboardComponent {
   currentHistoryPage = 1;
   totalHistoryPages = 1;
 
-
-  // Chart options
-  transactionChartOptions = {
-    tooltip: { trigger: 'axis' },
-    xAxis: {
-      type: 'category',
-      data: ['Finished', 'Ongoing', 'Pending'],
-      axisLabel: { fontSize: 12 }
-    },
-    yAxis: {
-      type: 'value',
-      axisLabel: { fontSize: 12 }
-    },
-    series: [
-      {
-        data: this.transactionChartData.map(d => d.value),
-        type: 'bar',
-        itemStyle: {
-          color: (params: any) => {
-            const colors = ['#4CAF50', '#2196F3', '#FF9800'];
-            return colors[params.dataIndex];
-          }
-        },
-        label: {
-          show: true,
-          position: 'top',
-          fontSize: 12
-        }
-      }
-    ]
-  };
-
-  userChartOptions = {
-    tooltip: { trigger: 'item' },
-    legend: {
-      top: 'bottom',
-      textStyle: { fontSize: 12 }
-    },
-    series: [
-      {
-        name: 'Clients',
-        type: 'pie',
-        radius: '60%',
-        data: this.userChartData,
-        label: {
-          fontSize: 12,
-          formatter: '{b}: {d}%'
-        },
-        itemStyle: {
-          color: (params: any) => {
-            const colors: { [key: string]: string } = {
-              'Active': '#2196F3',
-              'Inactive': '#F44336'
-            };
-            return colors[params.name] || '#999';
-          }
-        },
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
-          }
-        }
-      }
-    ]
-  };
-
   constructor(
     private authService: AuthService,
     private router: Router,
     private adminService: AdminService,
     private clientService: ClientService,
-    private transactionsService: TransactionsService 
+    private transactionsService: TransactionsService,
+    private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit() {
+ ngOnInit() {
+    this.transactionChartOptions = {
+      tooltip: {
+        trigger: 'axis' // Example: 'axis' trigger for bar chart
+      },
+      xAxis: {
+        type: 'category',
+        data: ['Finished', 'Ongoing', 'Pending'],
+        axisLabel: { fontSize: 12 }
+      },
+      yAxis: {
+        type: 'value',
+        axisLabel: { fontSize: 12 }
+      },
+      series: [
+        {
+          data: this.transactionChartData.map(d => d.value),
+          type: 'bar',
+          itemStyle: {
+            color: (params: any) => {
+              const colors = ['#4CAF50', '#2196F3', '#FF9800'];
+              return colors[params.dataIndex];
+            }
+          },
+          label: {
+            show: true,
+            position: 'top',
+            fontSize: 12
+          }
+        }
+      ]
+    };
+
+    this.userChartOptions = {
+      tooltip: {
+        trigger: 'item' // Example: 'item' trigger for pie chart
+      },
+      legend: {
+        top: 'bottom',
+        textStyle: { fontSize: 12 }
+      },
+      series: [
+        {
+          name: 'Clients',
+          type: 'pie',
+          radius: '60%',
+          data: this.userChartData,
+          label: {
+            fontSize: 12,
+            formatter: '{b}: {d}%'
+          },
+          itemStyle: {
+            color: (params: any) => {
+              const colors: { [key: string]: string } = {
+                'Active': '#2196F3',
+                'Inactive': '#F44336'
+              };
+              return colors[params.name] || '#999';
+            }
+          },
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
+
     if (this.activeSection === 'dashboard') {
-      this.loadClients();        // 👈 Load chart data on load
-      this.loadTransactions();   // 👈 preload transaction data
+      this.loadClients();
+      this.loadTransactions();
     }
   }
 
@@ -393,6 +403,121 @@ addTransaction() {
     }
   });
 }
+
+  onClientRowDoubleClick(client: Client) {
+    this.selectedClient = {
+      clientId: client.clientId,
+      clientName: client.clientName,
+      email: client.email,
+      isActive: client.status === 'Active' // Convert string to boolean
+    };
+    this.showUpdateClientModal = true;
+  }
+
+  closeUpdateClientModal() {
+    this.showUpdateClientModal = false;
+    this.selectedClient = null;
+  }
+
+
+  updateClient() {
+    const { clientId, clientName, email, isActive } = this.selectedClient;
+    if (!clientName || !email) {
+      alert('Name and email are required.');
+      return;
+    }
+
+    this.clientService.updateClient(clientId, { clientName, email, isActive }).subscribe({
+      next: () => {
+        alert('Client updated successfully!');
+        this.closeUpdateClientModal();
+        this.loadClients(this.currentClientPage);
+      },
+      error: (err) => {
+        console.error('Update failed:', err);
+        alert(err.error?.error || 'Update failed');
+      }
+    });
+  }
+
+
+
+  onDeleteClient(clientId: number, event: MouseEvent): void {
+  event.stopPropagation(); 
+  if (confirm('Are you sure you want to delete this client?')) {
+    this.clientService.deleteClient(clientId).subscribe(() => {
+      this.showUpdateClientModal = false; 
+      this.loadClients(); 
+    });
+  }
+}
+
+
+onAdminRowDoubleClick(admin: any) {
+  this.selectedAdmin = { ...admin };
+  this.showUpdateAdminModal = true;
+}
+
+closeUpdateAdminModal() {
+  this.selectedAdmin = null;
+  this.showUpdateAdminModal = false;
+}
+
+updateAdmin() {
+  const { admin_id, username, email } = this.selectedAdmin;
+
+  if (!username || !email) {
+    this.snackBar.open('Username and email are required.', 'Close', {
+      duration: 3000,
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      panelClass: ['custom-snackbar-warning']
+    });
+    return;
+  }
+
+  this.adminService.updateAdmin(admin_id, { username, email }).subscribe({
+    next: (res) => {
+      this.loadAdmins();
+      this.closeUpdateAdminModal();
+      this.snackBar.open(res.message || 'Admin updated successfully', 'Close', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['custom-snackbar-successful']
+      });
+    },
+    error: (err) => {
+      const message = err.status === 409
+        ? 'Username already exists.'
+        : 'Failed to update admin.';
+      this.snackBar.open(message, 'Close', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['custom-snackbar-failed']
+      });
+    }
+  });
+}
+
+onDeleteAdmin(adminId: number, event: MouseEvent) {
+  event.stopPropagation();
+  if (confirm('Are you sure you want to delete this admin?')) {
+    this.adminService.deleteAdmin(adminId).subscribe({
+      next: () => {
+        this.loadAdmins(this.currentPage);
+        this.closeUpdateAdminModal();
+      },
+      error: err => console.error('Delete failed', err)
+    });
+  }
+}
+
+
+
+
+
 
 
 

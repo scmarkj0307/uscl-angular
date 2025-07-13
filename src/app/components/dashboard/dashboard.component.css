@@ -6,6 +6,65 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+
+
+::ng-deep .custom-snackbar-successful {
+  position: absolute !important;
+  top: 20px !important;
+  right: 20px !important;
+  left: auto !important;
+  transform: none !important;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 12px 20px;
+  z-index: 99999999;
+  background-color: white; 
+  color: #1b5e20;
+  height: 40px;
+  width: 345px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+::ng-deep .custom-snackbar-warning {
+  position: absolute !important;
+  top: 20px !important;
+  right: 20px !important;
+  left: auto !important;
+  transform: none !important;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 12px 20px;
+  z-index: 1000;
+  background-color: white; 
+  color: #4e3d00;  
+  height: 40px;
+  width: 345px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+::ng-deep .custom-snackbar-failed {
+  position: absolute !important;
+  top: 20px !important;
+  right: 20px !important;
+  left: auto !important;
+  transform: none !important;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 12px 20px;
+  z-index: 1000;
+  background-color: white;
+  color: #c62828;     
+  height: 40px;
+  width: 345px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+
+
+
+
+
+
 /* Header */
 .header {
   position: fixed;
@@ -395,6 +454,22 @@ nav a.active {
 
 .register-button:hover {
   background-color: #45a049;
+}
+
+
+/* Hover effect for client table rows */
+.clickable-row:hover {
+  background-color: #eef6ff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.clickable-row td {
+  transition: color 0.3s ease;
+}
+
+.clickable-row:hover td {
+  color: #1f3c88;
 }
 
 

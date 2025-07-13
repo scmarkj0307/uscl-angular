@@ -276,7 +276,7 @@ header nav ul li a:hover {
 
 .order-tracker {
   position: fixed;
-  bottom: 20px;
+  bottom: 60px;
   right: 20px;
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid #ccc;

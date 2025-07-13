@@ -32,4 +32,15 @@ export class ClientService {
     return this.http.post(this.apiUrl, clientData);
   }
 
+  updateClient(clientId: number, clientData: { clientName: string; email: string; isActive: boolean }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${clientId}`, clientData);
+  }
+
+
+  deleteClient(clientId: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/${clientId}`);
+}
+
+
+
 }

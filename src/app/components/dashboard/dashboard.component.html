@@ -57,7 +57,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let admin of admins">
+          <tr *ngFor="let admin of admins" (dblclick)="onAdminRowDoubleClick(admin)" class="clickable-row">
                 <td>{{ admin.admin_id }}</td>
                 <td>{{ admin.username }}</td>
                 <td>{{ admin.email }}</td>
@@ -95,6 +95,26 @@
       </div>
     </div>
 
+        <!-- Update Admin Modal -->
+    <div class="modal" *ngIf="showUpdateAdminModal">
+      <div class="modal-content">
+        <h3>Update Admin</h3>
+
+        <label>Username:</label>
+        <input [(ngModel)]="selectedAdmin.username" type="text" />
+
+        <label>Email:</label>
+        <input [(ngModel)]="selectedAdmin.email" type="email" />
+
+        <div class="modal-actions">
+          <button (click)="updateAdmin()">Update</button>
+          <button (click)="closeUpdateAdminModal()">Cancel</button>
+          <button class="delete-btn" (click)="onDeleteAdmin(selectedAdmin.admin_id, $event)">Delete</button>
+        </div>
+      </div>
+    </div>
+
+
     <!-- Clients Section -->
     <div *ngIf="activeSection === 'clients'" class="section full-width">
       <div class="admin-header">
@@ -113,7 +133,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let client of clients">
+        <tr *ngFor="let client of clients" (dblclick)="onClientRowDoubleClick(client)"  class="clickable-row">
               <td>{{ client.clientId }}</td>
               <td>{{ client.clientName }}</td>
               <td>{{ client.email }}</td>
@@ -150,6 +170,27 @@
         <div class="modal-buttons">
           <button (click)="addClient()">Submit</button>
           <button (click)="closeClientModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Update Client Modal -->
+    <div class="modal" *ngIf="showUpdateClientModal">
+      <div class="modal-content">
+        <h3>Update Client</h3>
+        <label>Name:</label>
+        <input [(ngModel)]="selectedClient.clientName" type="text">
+        <label>Email:</label>
+        <input [(ngModel)]="selectedClient.email" type="email">
+        <label>Status:</label>
+        <select [(ngModel)]="selectedClient.isActive">
+          <option [ngValue]="true">Active</option>
+          <option [ngValue]="false">Inactive</option>
+        </select>
+        <div class="modal-actions">
+          <button (click)="updateClient()">Update</button>
+          <button (click)="closeUpdateClientModal()">Cancel</button>
+          <button class="delete-btn" (click)="onDeleteClient(selectedClient.clientId, $event)">Delete</button>
         </div>
       </div>
     </div>

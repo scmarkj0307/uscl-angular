@@ -26,4 +26,15 @@ getAdmins(page: number = 1, limit: number = 10): Observable<{
   return this.http.get<any>(`${this.apiUrl}?page=${page}&limit=${limit}`);
 }
 
+updateAdmin(admin_id: number, data: { username: string; email: string }): Observable<any> {
+  return this.http.put(`${this.apiUrl}/${admin_id}`, data);
+}
+
+
+
+deleteAdmin(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/${id}`);
+}
+
+
 }

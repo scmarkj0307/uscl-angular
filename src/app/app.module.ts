@@ -11,6 +11,11 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+// import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+
 
 
 @NgModule({
@@ -28,12 +33,15 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatSnackBarModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     })
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    // provideNoopAnimations()
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

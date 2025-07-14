@@ -12,6 +12,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+  statusOptions = [
+  { id: 1, name: 'Pending' },
+  { id: 2, name: 'Ongoing' },
+  { id: 3, name: 'Finished' }
+];
   transactionChartOptions: any; // Define type as any or EChartsOption for flexibility
   userChartOptions: any; // Define type as any or EChartsOption for flexibility
   menuOpen = false;
@@ -34,6 +39,8 @@ export class DashboardComponent {
   selectedClient: any = null;
   showUpdateAdminModal = false;
   selectedAdmin: any = null;
+  selectedTransaction: any = null;
+  showUpdateTransactionModal = false;
   showTransactionModal = false;
   newTransaction = {
     clientId: 0,
@@ -530,6 +537,70 @@ copyTrackingId(trackingId: string): void {
     });
   });
 }
+
+
+onTransactionRowDoubleClick(transaction: any) {
+  const status = this.statusOptions.find(s => s.name === transaction.statusName);
+
+  this.selectedTransaction = {
+    trackingId: transaction.trackingId,
+    clientId: transaction.clientId,
+    trackingMessage: transaction.trackingMessage,
+    trackingStatusId: status ? status.id : 1,
+    description: transaction.description
+  };
+
+  this.showUpdateTransactionModal = true;
+}
+
+
+closeUpdateTransactionModal() {
+  this.showUpdateTransactionModal = false;
+}
+
+updateTransaction() {
+  const trackingId = this.selectedTransaction.trackingId;
+
+  const updatedData = {
+    clientId: this.selectedTransaction.clientId,
+    trackingMessage: this.selectedTransaction.trackingMessage,
+    trackingStatusId: this.selectedTransaction.trackingStatusId,
+    description: this.selectedTransaction.description,
+  };
+
+  this.transactionsService.updateTransaction(trackingId, updatedData).subscribe(() => {
+    this.loadTransactions(this.currentTransactionPage);
+    this.closeUpdateTransactionModal();
+  });
+}
+
+onDeleteTransaction(trackingId: string, event: MouseEvent): void {
+  event.stopPropagation(); // Prevent row click or double-click event
+
+  if (confirm("Are you sure you want to delete this transaction?")) {
+    this.transactionsService.deleteTransaction(trackingId).subscribe(() => {
+      this.loadTransactions(this.currentTransactionPage); // Refresh the transaction list
+      this.closeUpdateTransactionModal(); // Optionally close modal if open
+    });
+  }
+}
+
+onDeleteTransactionHistory(trackingId: string): void {
+  if (confirm('Are you sure you want to delete this transaction history?')) {
+    this.transactionsService.deleteTransactionHistory(trackingId).subscribe({
+      next: () => {
+        alert('Transaction deleted successfully.');
+        this.loadTransactionHistory(this.currentHistoryPage); // Reload the history list
+      },
+      error: (err) => {
+        console.error('Error deleting transaction:', err);
+        alert('Failed to delete transaction.');
+      }
+    });
+  }
+}
+
+
 
 
 }

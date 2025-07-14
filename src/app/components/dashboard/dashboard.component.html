@@ -213,7 +213,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let transaction of transactions">
+        <tr *ngFor="let transaction of transactions" (dblclick)="onTransactionRowDoubleClick(transaction)" class="clickable-row">
           <td class="tracking-id-cell">
             <span>{{ transaction.trackingId }}</span>
             <button (click)="copyTrackingId(transaction.trackingId.toString())" class="copy-icon-btn" title="Copy">
@@ -253,13 +253,14 @@
 
     <label>Message:</label>
     <input type="text" [(ngModel)]="newTransaction.trackingMessage" />
-
+    
     <label>Status:</label>
-    <select [(ngModel)]="newTransaction.trackingStatusId">
-      <option [ngValue]="1">Pending</option>
-      <option [ngValue]="2">Ongoing</option>
-      <option [ngValue]="3">Finished</option>
+    <select [(ngModel)]="selectedTransaction.trackingStatusId">
+      <option *ngFor="let status of statusOptions" [ngValue]="status.id">
+        {{ status.name }}
+      </option>
     </select>
+
 
     <div class="modal-buttons">
       <button (click)="addTransaction()">Create</button>
@@ -267,6 +268,40 @@
     </div>
   </div>
 </div>
+
+<!-- Update Transaction Modal -->
+<div class="modal-overlay" *ngIf="showUpdateTransactionModal">
+  <div class="modal">
+    <h2>Update Transaction</h2>
+
+    <label>Description:</label>
+    <textarea rows="3" [(ngModel)]="selectedTransaction.description"></textarea>
+
+    <label>Client:</label>
+    <select [(ngModel)]="selectedTransaction.clientId">
+      <option *ngFor="let client of clients" [ngValue]="client.clientId">
+        {{ client.clientName }}
+      </option>
+    </select>
+
+    <label>Message:</label>
+    <input type="text" [(ngModel)]="selectedTransaction.trackingMessage" />
+
+    <label>Status:</label>
+    <select [(ngModel)]="selectedTransaction.trackingStatusId">
+      <option [ngValue]="1">Pending</option>
+      <option [ngValue]="2">Ongoing</option>
+      <option [ngValue]="3">Finished</option>
+    </select>
+
+    <div class="modal-buttons">
+      <button (click)="updateTransaction()">Update</button>
+      <button (click)="closeUpdateTransactionModal()">Cancel</button>
+      <button class="delete-btn" (click)="onDeleteTransaction(selectedTransaction.trackingId, $event)">Delete</button>
+    </div>
+  </div>
+</div>
+
 
 
 
@@ -300,7 +335,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let history of transactionsHistory">
-          <td>{{ history.trackingId }}</td>
+          <td class="tracking-id-cell">
+            <span>{{ history.trackingId }}</span>
+            <button (click)="onDeleteTransactionHistory(history.trackingId)" class="delete-icon-btn" title="Delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
           <td>{{ history.description }}</td>
           <td>{{ history.clientName }}</td>
           <td>{{ history.trackingMessage }}</td>

@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 
 export interface Transaction {
   historyId?: number;
-  trackingId: number;
+  trackingId: string; // changed from number to string
   clientId: number;
   clientName: string;
   trackingMessage: string;
   trackingStatusId: number;
-  description?: string; // ✅ Added
+  description?: string;
   created_at: string;
   changed_at?: string;
   statusName: string;
@@ -23,7 +23,7 @@ export class TransactionsService {
 
   constructor(private http: HttpClient) {}
 
-  getTransactionById(id: number): Observable<Transaction> {
+  getTransactionById(id: string): Observable<Transaction> {
     return this.http.get<Transaction>(`${this.baseUrl}/transactions/${id}`);
   }
 
@@ -67,8 +67,36 @@ export class TransactionsService {
     clientId: number;
     trackingMessage: string;
     trackingStatusId: number;
-    description?: string; // ✅ Include description in payload
-  }): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${this.baseUrl}/transactions`, transaction);
+    description?: string;
+  }): Observable<{ message: string; trackingId: string }> {
+    return this.http.post<{ message: string; trackingId: string }>(
+      `${this.baseUrl}/transactions`,
+      transaction
+    );
   }
+
+  updateTransaction(trackingId: string, updatedData: {
+    clientId: number;
+    trackingMessage: string;
+    trackingStatusId: number;
+    description?: string;
+  }): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(
+      `${this.baseUrl}/transactions/${trackingId}`,
+      updatedData
+    );
+  }
+
+  deleteTransaction(trackingId: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(
+      `${this.baseUrl}/transactions/${trackingId}`
+    );
+  }
+
+  deleteTransactionHistory(trackingId: string): Observable<{ message: string }> {
+  return this.http.delete<{ message: string }>(
+    `${this.baseUrl}/transaction-history/${trackingId}`
+  );
+}
+
 }

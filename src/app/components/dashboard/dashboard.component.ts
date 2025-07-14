@@ -38,7 +38,8 @@ export class DashboardComponent {
   newTransaction = {
     clientId: 0,
     trackingMessage: '',
-    trackingStatusId: 1
+    trackingStatusId: 1,
+    description: ''
   };
 
 
@@ -381,7 +382,7 @@ openTransactionModal() {
 
 closeTransactionModal() {
   this.showTransactionModal = false;
-  this.newTransaction = { clientId: 0, trackingMessage: '', trackingStatusId: 1 };
+  this.newTransaction = { clientId: 0, trackingMessage: '', trackingStatusId: 1, description: '' };
 }
 
 addTransaction() {
@@ -469,9 +470,9 @@ updateAdmin() {
   if (!username || !email) {
     this.snackBar.open('Username and email are required.', 'Close', {
       duration: 3000,
-      horizontalPosition: 'end',
+      // horizontalPosition: 'end',
       verticalPosition: 'top',
-      panelClass: ['custom-snackbar-warning']
+      // panelClass: ['custom-snackbar-warning']
     });
     return;
   }
@@ -482,9 +483,9 @@ updateAdmin() {
       this.closeUpdateAdminModal();
       this.snackBar.open(res.message || 'Admin updated successfully', 'Close', {
         duration: 3000,
-        horizontalPosition: 'end',
+        // horizontalPosition: 'end',
         verticalPosition: 'top',
-        panelClass: ['custom-snackbar-successful']
+        // panelClass: ['custom-snackbar-successful']
       });
     },
     error: (err) => {
@@ -493,9 +494,9 @@ updateAdmin() {
         : 'Failed to update admin.';
       this.snackBar.open(message, 'Close', {
         duration: 3000,
-        horizontalPosition: 'end',
+        // horizontalPosition: 'end',
         verticalPosition: 'top',
-        panelClass: ['custom-snackbar-failed']
+        // panelClass: ['custom-snackbar-failed']
       });
     }
   });
@@ -515,12 +516,20 @@ onDeleteAdmin(adminId: number, event: MouseEvent) {
 }
 
 
-
-
-
-
-
-
+copyTrackingId(trackingId: string): void {
+  navigator.clipboard.writeText(trackingId).then(() => {
+    this.snackBar.open('Tracking ID copied!', 'Close', {
+      duration: 2000,
+      verticalPosition: 'top'
+    });
+  }).catch(err => {
+    console.error('Failed to copy tracking ID: ', err);
+    this.snackBar.open('Failed to copy!', 'Close', {
+      duration: 2000,
+      verticalPosition: 'top'
+    });
+  });
+}
 
 
 }

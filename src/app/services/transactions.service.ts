@@ -9,6 +9,7 @@ export interface Transaction {
   clientName: string;
   trackingMessage: string;
   trackingStatusId: number;
+  description?: string; // ✅ Added
   created_at: string;
   changed_at?: string;
   statusName: string;
@@ -66,8 +67,8 @@ export class TransactionsService {
     clientId: number;
     trackingMessage: string;
     trackingStatusId: number;
+    description?: string; // ✅ Include description in payload
   }): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(`${this.baseUrl}/transactions`, transaction);
   }
 }
-

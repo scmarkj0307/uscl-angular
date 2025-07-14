@@ -50,7 +50,6 @@
           <table class="admin-table">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Date Created</th>
@@ -58,7 +57,6 @@
             </thead>
             <tbody>
           <tr *ngFor="let admin of admins" (dblclick)="onAdminRowDoubleClick(admin)" class="clickable-row">
-                <td>{{ admin.admin_id }}</td>
                 <td>{{ admin.username }}</td>
                 <td>{{ admin.email }}</td>
                 <td>{{ admin.created_at | date: 'short' }}</td>
@@ -125,7 +123,6 @@
         <table class="admin-table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Name</th>
               <th>Email</th>
               <th>Status</th>
@@ -134,7 +131,6 @@
           </thead>
           <tbody>
         <tr *ngFor="let client of clients" (dblclick)="onClientRowDoubleClick(client)"  class="clickable-row">
-              <td>{{ client.clientId }}</td>
               <td>{{ client.clientName }}</td>
               <td>{{ client.email }}</td>
               <td>{{ client.status }}</td>
@@ -209,6 +205,7 @@
       <thead>
         <tr>
           <th>Tracking Id</th>
+          <th>Description</th>
           <th>Client</th>
           <th>Tracking Message</th>
           <th>Status</th>
@@ -217,7 +214,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let transaction of transactions">
-          <td>{{ transaction.trackingId }}</td>
+          <td class="tracking-id-cell">
+            <span>{{ transaction.trackingId }}</span>
+            <button (click)="copyTrackingId(transaction.trackingId.toString())" class="copy-icon-btn" title="Copy">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </td>
+          <td>{{ transaction.description }}</td>
           <td>{{ transaction.clientName }}</td>
           <td>{{ transaction.trackingMessage }}</td>
           <td>{{ transaction.statusName }}</td>
@@ -237,6 +240,9 @@
 <div class="modal-overlay" *ngIf="showTransactionModal">
   <div class="modal">
     <h2>Create New Transaction</h2>
+
+    <label>Description:</label>
+    <textarea rows="3" [(ngModel)]="newTransaction.description"></textarea>
 
     <label>Client:</label>
     <select [(ngModel)]="newTransaction.clientId">
@@ -283,8 +289,8 @@
       <table class="admin-table">
       <thead>
         <tr>
-          <th>History ID</th>
           <th>Tracking ID</th>
+          <th>Description</th>
           <th>Client</th>
           <th>Message</th>
           <th>Status</th>
@@ -294,8 +300,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let history of transactionsHistory">
-          <td>{{ history.historyId }}</td>
           <td>{{ history.trackingId }}</td>
+          <td>{{ history.description }}</td>
           <td>{{ history.clientName }}</td>
           <td>{{ history.trackingMessage }}</td>
           <td>{{ history.statusName }}</td>

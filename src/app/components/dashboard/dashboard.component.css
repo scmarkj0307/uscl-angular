@@ -1,10 +1,10 @@
-/* Reset & Box-Sizing */
-* {
+*:not([class*="fa-"]) {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 
 
 
@@ -471,6 +471,36 @@ nav a.active {
 .clickable-row:hover td {
   color: #1f3c88;
 }
+
+
+.tracking-id-cell {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding-right: 8px;
+}
+
+.copy-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #555;
+  font-size: 16px;
+  margin-right: 20px;
+}
+
+.copy-icon-btn:hover {
+  color: #007bff;
+}
+
+th:first-child,
+.tracking-id-cell {
+  min-width: 150px;
+  white-space: nowrap;
+}
+
 
 
 

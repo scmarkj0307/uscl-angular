@@ -218,9 +218,17 @@ header nav ul li a:hover {
   }
 }
 
+/* ========================== */
+/* Custom Section               */
+/* ========================== */
 
+.home-section{
+  margin-top: -2rem;
+}
 
-
+.about-section{
+   margin-top: -4rem;
+}
 
 
 /* ========================== */
@@ -661,6 +669,12 @@ footer p {
   .circle {
     display: none !important;
   }
+
+  .home-section{
+    margin-top: -5rem;
+  }
+
+
 }
 
 @media (max-width: 1300px) {

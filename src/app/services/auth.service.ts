@@ -6,6 +6,9 @@ interface RegisterPayload {
   username: string;
   password: string;
   email: string;
+  isAdmin: boolean;
+  isSuperAdmin: boolean;
+  isDemo: boolean;
 }
 
 interface LoginPayload {

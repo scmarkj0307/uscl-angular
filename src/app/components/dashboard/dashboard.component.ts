@@ -23,7 +23,14 @@ export class DashboardComponent {
   activeSection: string = 'dashboard';
   filterClientName: string = '';
   showRegisterModal = false;
-  newAdmin = { username: '', email: '', password: '' };
+  newAdmin = {
+  username: '',
+  email: '',
+  password: ''
+};
+
+newAdminRole: 'isAdmin' | 'isSuperAdmin' | 'isDemo' = 'isAdmin';
+
   userChartData = [
   { value: 0, name: 'Active' },
   { value: 0, name: 'Inactive' }
@@ -331,19 +338,47 @@ closeRegisterModal() {
 }
 
 registerAdmin() {
-  this.authService.register(this.newAdmin).subscribe({
+  const { username, email, password } = this.newAdmin;
+  const role = this.newAdminRole;
+
+  if (!username || !email || !password || !role) {
+    this.snackBar.open('All fields including role are required.', 'Close', {
+      duration: 3000,
+      verticalPosition: 'top'
+    });
+    return;
+  }
+
+  const registerPayload = {
+    username,
+    email,
+    password,
+    isAdmin: role === 'isAdmin',
+    isSuperAdmin: role === 'isSuperAdmin',
+    isDemo: role === 'isDemo'
+  };
+
+  this.authService.register(registerPayload).subscribe({
     next: (res) => {
-      alert('Admin registered successfully!');
+      this.loadAdmins();
       this.closeRegisterModal();
-      this.loadAdmins(); // Reload the admins table
+      this.snackBar.open(res.message || 'Admin registered successfully', 'Close', {
+        duration: 3000,
+        verticalPosition: 'top'
+      });
     },
     error: (err) => {
-      console.error('Register error:', err);
-      const msg = err.error?.message || 'Registration failed';
-      alert(msg);
+      const message = err.status === 409
+        ? 'Username already exists.'
+        : 'Failed to register admin.';
+      this.snackBar.open(message, 'Close', {
+        duration: 3000,
+        verticalPosition: 'top'
+      });
     }
   });
 }
+
 
 openClientModal() {
   this.showClientModal = true;

@@ -75,21 +75,28 @@
     <div class="modal" *ngIf="showRegisterModal">
       <div class="modal-content">
         <h3>Register Admin</h3>
-        <form (submit)="registerAdmin()">
-          <label>Username:</label>
-          <input [(ngModel)]="newAdmin.username" name="username" required />
-          
-          <label>Email:</label>
-          <input [(ngModel)]="newAdmin.email" name="email" required type="email" />
-          
-          <label>Password:</label>
-          <input [(ngModel)]="newAdmin.password" name="password" required type="password" />
-          
-          <div class="modal-actions">
-            <button type="submit">Register</button>
-            <button type="button" (click)="closeRegisterModal()">Cancel</button>
-          </div>
-        </form>
+          <form (submit)="registerAdmin()">
+            <label>Username:</label>
+            <input [(ngModel)]="newAdmin.username" name="username" required />
+
+            <label>Email:</label>
+            <input [(ngModel)]="newAdmin.email" name="email" required type="email" />
+
+            <label>Password:</label>
+            <input [(ngModel)]="newAdmin.password" name="password" required type="password" />
+
+            <label>Role:</label>
+            <div class="role-options">
+              <label><input type="radio" name="role" [(ngModel)]="newAdminRole" [value]="'isAdmin'" required /> Admin</label>
+              <label><input type="radio" name="role" [(ngModel)]="newAdminRole" [value]="'isSuperAdmin'" /> Super Admin</label>
+              <label><input type="radio" name="role" [(ngModel)]="newAdminRole" [value]="'isDemo'" /> Demo</label>
+            </div>
+
+            <div class="modal-actions">
+              <button type="submit">Register</button>
+              <button type="button" (click)="closeRegisterModal()">Cancel</button>
+            </div>
+          </form>
       </div>
     </div>
 

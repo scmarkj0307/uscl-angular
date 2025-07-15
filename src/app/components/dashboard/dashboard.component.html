@@ -1,4 +1,3 @@
-<!-- index.html or Angular component HTML -->
 <div class="header">
   <img src="assets/images/image3.png" alt="USCLC Logo" class="logo" />
   <button class="logout" (click)="logout()">LOG OUT</button>
@@ -72,52 +71,72 @@
       </div>
     </div>
 
-    <div class="modal" *ngIf="showRegisterModal">
-      <div class="modal-content">
-        <h3>Register Admin</h3>
-          <form (submit)="registerAdmin()">
+     <!-- Register Admin Modal -->
+    <div class="modal-overlay" *ngIf="showRegisterModal">
+        <div class="custom-modal">
+          <h2 class="modal-title">Register Admin</h2>
+
+          <div class="modal-group">
             <label>Username:</label>
-            <input [(ngModel)]="newAdmin.username" name="username" required />
+            <input [(ngModel)]="newAdmin.username" name="username" class="modal-input" required />
+          </div>
 
+          <div class="modal-group">
             <label>Email:</label>
-            <input [(ngModel)]="newAdmin.email" name="email" required type="email" />
+            <input [(ngModel)]="newAdmin.email" name="email" type="email" class="modal-input" required />
+          </div>
 
+          <div class="modal-group">
             <label>Password:</label>
-            <input [(ngModel)]="newAdmin.password" name="password" required type="password" />
+            <input [(ngModel)]="newAdmin.password" name="password" type="password" class="modal-input" required />
+          </div>
 
+          <div class="modal-group">
             <label>Role:</label>
             <div class="role-options">
-              <label><input type="radio" name="role" [(ngModel)]="newAdminRole" [value]="'isAdmin'" required /> Admin</label>
-              <label><input type="radio" name="role" [(ngModel)]="newAdminRole" [value]="'isSuperAdmin'" /> Super Admin</label>
-              <label><input type="radio" name="role" [(ngModel)]="newAdminRole" [value]="'isDemo'" /> Demo</label>
+              <label>
+                <input type="radio" name="role" [(ngModel)]="newAdminRole" value="isAdmin" /> Admin
+              </label>
+              <label>
+                <input type="radio" name="role" [(ngModel)]="newAdminRole" value="isSuperAdmin" /> Super Admin
+              </label>
+              <label>
+                <input type="radio" name="role" [(ngModel)]="newAdminRole" value="isDemo" /> Demo
+              </label>
             </div>
+          </div>
 
-            <div class="modal-actions">
-              <button type="submit">Register</button>
-              <button type="button" (click)="closeRegisterModal()">Cancel</button>
-            </div>
-          </form>
+          <div class="modal-buttons">
+            <button class="modal-btn create" (click)="registerAdmin()">Register</button>
+            <button class="modal-btn cancel" (click)="closeRegisterModal()">Cancel</button>
+          </div>
+        </div>
       </div>
-    </div>
 
-        <!-- Update Admin Modal -->
-    <div class="modal" *ngIf="showUpdateAdminModal">
-      <div class="modal-content">
-        <h3>Update Admin</h3>
 
-        <label>Username:</label>
-        <input [(ngModel)]="selectedAdmin.username" type="text" />
+    <!-- Update Admin Modal -->
+    <div class="modal-overlay" *ngIf="showUpdateAdminModal">
+      <div class="custom-modal">
+        <h2 class="modal-title">Update Admin</h2>
 
-        <label>Email:</label>
-        <input [(ngModel)]="selectedAdmin.email" type="email" />
+        <div class="modal-group">
+          <label>Username:</label>
+          <input [(ngModel)]="selectedAdmin.username" type="text" class="modal-input" />
+        </div>
 
-        <div class="modal-actions">
-          <button (click)="updateAdmin()">Update</button>
-          <button (click)="closeUpdateAdminModal()">Cancel</button>
-          <button class="delete-btn" (click)="onDeleteAdmin(selectedAdmin.admin_id, $event)">Delete</button>
+        <div class="modal-group">
+          <label>Email:</label>
+          <input [(ngModel)]="selectedAdmin.email" type="email" class="modal-input" />
+        </div>
+
+        <div class="modal-buttons">
+          <button class="modal-btn create" (click)="updateAdmin()">Update</button>
+          <button class="modal-btn cancel" (click)="closeUpdateAdminModal()">Cancel</button>
+          <button class="modal-btn delete" (click)="onDeleteAdmin(selectedAdmin.admin_id, $event)">Delete</button>
         </div>
       </div>
     </div>
+
 
 
     <!-- Clients Section -->
@@ -155,48 +174,67 @@
     </div>
 
     <!-- Add Client Modal -->
-    <div *ngIf="showClientModal" class="modal">
-      <div class="modal-content">
-        <h3>Add New Client</h3>
-        <label>Name:</label>
-        <input [(ngModel)]="newClient.clientName" type="text" required />
-        
-        <label>Email:</label>
-        <input [(ngModel)]="newClient.email" type="email" required />
+    <div class="modal-overlay" *ngIf="showClientModal">
+      <div class="custom-modal">
+        <h2 class="modal-title">Add New Client</h2>
 
-        <label>Status:</label>
-        <select [(ngModel)]="newClient.isActive">
-          <option [ngValue]="true">Active</option>
-          <option [ngValue]="false">Inactive</option>
-        </select>
+        <div class="modal-group">
+          <label>Name:</label>
+          <input [(ngModel)]="newClient.clientName" type="text" class="modal-input" required />
+        </div>
+
+        <div class="modal-group">
+          <label>Email:</label>
+          <input [(ngModel)]="newClient.email" type="email" class="modal-input" required />
+        </div>
+
+        <div class="modal-group">
+          <label>Status:</label>
+          <select [(ngModel)]="newClient.isActive" class="modal-input">
+            <option [ngValue]="true">Active</option>
+            <option [ngValue]="false">Inactive</option>
+          </select>
+        </div>
 
         <div class="modal-buttons">
-          <button (click)="addClient()">Submit</button>
-          <button (click)="closeClientModal()">Cancel</button>
+          <button class="modal-btn create" (click)="addClient()">Submit</button>
+          <button class="modal-btn cancel" (click)="closeClientModal()">Cancel</button>
         </div>
       </div>
     </div>
 
+
     <!-- Update Client Modal -->
-    <div class="modal" *ngIf="showUpdateClientModal">
-      <div class="modal-content">
-        <h3>Update Client</h3>
+  <div class="modal-overlay" *ngIf="showUpdateClientModal">
+    <div class="custom-modal">
+      <h2 class="modal-title">Update Client</h2>
+
+      <div class="modal-group">
         <label>Name:</label>
-        <input [(ngModel)]="selectedClient.clientName" type="text">
+        <input [(ngModel)]="selectedClient.clientName" type="text" class="modal-input" />
+      </div>
+
+      <div class="modal-group">
         <label>Email:</label>
-        <input [(ngModel)]="selectedClient.email" type="email">
+        <input [(ngModel)]="selectedClient.email" type="email" class="modal-input" />
+      </div>
+
+      <div class="modal-group">
         <label>Status:</label>
-        <select [(ngModel)]="selectedClient.isActive">
+        <select [(ngModel)]="selectedClient.isActive" class="modal-input">
           <option [ngValue]="true">Active</option>
           <option [ngValue]="false">Inactive</option>
         </select>
-        <div class="modal-actions">
-          <button (click)="updateClient()">Update</button>
-          <button (click)="closeUpdateClientModal()">Cancel</button>
-          <button class="delete-btn" (click)="onDeleteClient(selectedClient.clientId, $event)">Delete</button>
-        </div>
+      </div>
+
+      <div class="modal-buttons">
+        <button class="modal-btn create" (click)="updateClient()">Update</button>
+        <button class="modal-btn cancel" (click)="closeUpdateClientModal()">Cancel</button>
+        <button class="modal-btn delete" (click)="onDeleteClient(selectedClient.clientId, $event)">Delete</button>
       </div>
     </div>
+  </div>
+
 
 
 
@@ -245,72 +283,85 @@
 </div>
 
 <div class="modal-overlay" *ngIf="showTransactionModal">
-  <div class="modal">
-    <h2>Create New Transaction</h2>
+  <div class="custom-modal">
+    <h2 class="modal-title">Create New Transaction</h2>
 
-    <label>Description:</label>
-    <textarea rows="3" [(ngModel)]="newTransaction.description"></textarea>
+    <div class="modal-group">
+      <label>Description:</label>
+      <textarea rows="3" [(ngModel)]="newTransaction.description" class="modal-input"></textarea>
+    </div>
 
-    <label>Client:</label>
-    <select [(ngModel)]="newTransaction.clientId">
-      <option *ngFor="let client of clients" [ngValue]="client.clientId">
-        {{ client.clientName }}
-      </option>
-    </select>
+    <div class="modal-group">
+      <label>Client:</label>
+      <select [(ngModel)]="newTransaction.clientId" class="modal-input">
+        <option *ngFor="let client of clients" [ngValue]="client.clientId">
+          {{ client.clientName }}
+        </option>
+      </select>
+    </div>
 
-    <label>Message:</label>
-    <input type="text" [(ngModel)]="newTransaction.trackingMessage" />
-    
-    <label>Status:</label>
-    <select [(ngModel)]="selectedTransaction.trackingStatusId">
-      <option *ngFor="let status of statusOptions" [ngValue]="status.id">
-        {{ status.name }}
-      </option>
-    </select>
+    <div class="modal-group">
+      <label>Message:</label>
+      <input type="text" [(ngModel)]="newTransaction.trackingMessage" class="modal-input" />
+    </div>
 
+    <div class="modal-group">
+      <label>Status:</label>
+      <select [(ngModel)]="newTransaction.trackingStatusId" class="modal-input">
+        <option *ngFor="let status of statusOptions" [ngValue]="status.id">
+          {{ status.name }}
+        </option>
+      </select>
+    </div>
 
     <div class="modal-buttons">
-      <button (click)="addTransaction()">Create</button>
-      <button (click)="closeTransactionModal()">Cancel</button>
+      <button class="modal-btn create" (click)="addTransaction()">Create</button>
+      <button class="modal-btn cancel" (click)="closeTransactionModal()">Cancel</button>
     </div>
   </div>
 </div>
+
 
 <!-- Update Transaction Modal -->
-<div class="modal-overlay" *ngIf="showUpdateTransactionModal">
-  <div class="modal">
-    <h2>Update Transaction</h2>
+  <div class="modal-overlay" *ngIf="showUpdateTransactionModal">
+    <div class="custom-modal">
+      <h2 class="modal-title">Update Transaction</h2>
 
-    <label>Description:</label>
-    <textarea rows="3" [(ngModel)]="selectedTransaction.description"></textarea>
+      <div class="modal-group">
+        <label>Description:</label>
+        <textarea rows="3" [(ngModel)]="selectedTransaction.description" class="modal-input"></textarea>
+      </div>
 
-    <label>Client:</label>
-    <select [(ngModel)]="selectedTransaction.clientId">
-      <option *ngFor="let client of clients" [ngValue]="client.clientId">
-        {{ client.clientName }}
-      </option>
-    </select>
+      <div class="modal-group">
+        <label>Client:</label>
+        <select [(ngModel)]="selectedTransaction.clientId" class="modal-input">
+          <option *ngFor="let client of clients" [ngValue]="client.clientId">
+            {{ client.clientName }}
+          </option>
+        </select>
+      </div>
 
-    <label>Message:</label>
-    <input type="text" [(ngModel)]="selectedTransaction.trackingMessage" />
+      <div class="modal-group">
+        <label>Message:</label>
+        <input type="text" [(ngModel)]="selectedTransaction.trackingMessage" class="modal-input" />
+      </div>
 
-    <label>Status:</label>
-    <select [(ngModel)]="selectedTransaction.trackingStatusId">
-      <option [ngValue]="1">Pending</option>
-      <option [ngValue]="2">Ongoing</option>
-      <option [ngValue]="3">Finished</option>
-    </select>
+      <div class="modal-group">
+        <label>Status:</label>
+        <select [(ngModel)]="selectedTransaction.trackingStatusId" class="modal-input">
+          <option [ngValue]="1">Pending</option>
+          <option [ngValue]="2">Ongoing</option>
+          <option [ngValue]="3">Finished</option>
+        </select>
+      </div>
 
-    <div class="modal-buttons">
-      <button (click)="updateTransaction()">Update</button>
-      <button (click)="closeUpdateTransactionModal()">Cancel</button>
-      <button class="delete-btn" (click)="onDeleteTransaction(selectedTransaction.trackingId, $event)">Delete</button>
+      <div class="modal-buttons">
+        <button class="modal-btn create" (click)="updateTransaction()">Update</button>
+        <button class="modal-btn cancel" (click)="closeUpdateTransactionModal()">Cancel</button>
+        <button class="modal-btn delete" (click)="onDeleteTransaction(selectedTransaction.trackingId, $event)">Delete</button>
+      </div>
     </div>
   </div>
-</div>
-
-
-
 
   
  <!-- Transactions History -->
@@ -365,3 +416,18 @@
     <button (click)="nextHistoryPage()" [disabled]="currentHistoryPage === totalHistoryPages">Next</button>
   </div>
 </div>
+
+
+<!-- Confirmation Modal -->
+<div *ngIf="showConfirmModal" class="confirm-modal-backdrop">
+  <div class="confirm-modal">
+    <h3 class="confirm-modal-title">Confirm Delete</h3>
+    <p>{{ confirmMessage }}</p>
+    <div class="confirm-modal-actions">
+      <button (click)="confirmAction()" class="confirm-btn confirm-btn-danger">Yes, Delete</button>
+      <button (click)="closeConfirmModal()" class="confirm-btn confirm-btn-secondary">Cancel</button>
+    </div>
+  </div>
+</div>
+
+

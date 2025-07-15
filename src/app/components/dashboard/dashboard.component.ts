@@ -17,6 +17,9 @@ export class DashboardComponent {
   { id: 2, name: 'Ongoing' },
   { id: 3, name: 'Finished' }
 ];
+  showConfirmModal: boolean = false;
+  confirmMessage: string = '';
+  confirmCallback: (() => void) | null = null;
   transactionChartOptions: any; // Define type as any or EChartsOption for flexibility
   userChartOptions: any; // Define type as any or EChartsOption for flexibility
   menuOpen = false;
@@ -393,29 +396,34 @@ addClient() {
   const { clientName, email, isActive } = this.newClient;
 
   if (!clientName || !email) {
-    alert('Name and Email are required.');
+    this.snackBar.open('Client name and email are required.', 'Close', {
+      duration: 3000,
+      verticalPosition: 'top'
+    });
     return;
   }
 
-  const clientPayload = {
-    clientName,
-    email,
-    isActive
-  };
+  const clientPayload = { clientName, email, isActive };
 
   this.clientService.addClient(clientPayload).subscribe({
     next: () => {
-      alert('Client added successfully!');
+      this.snackBar.open('Client added successfully!', 'Close', {
+        duration: 3000,
+        verticalPosition: 'top'
+      });
       this.closeClientModal();
       this.loadClients();
     },
     error: (err) => {
-      console.error('Failed to add client:', err);
-      const msg = err.error?.error || 'Adding client failed';
-      alert(msg);
+      const msg = err.error?.error || 'Failed to add client';
+      this.snackBar.open(msg, 'Close', {
+        duration: 3000,
+        verticalPosition: 'top'
+      });
     }
   });
 }
+
 
 
 openTransactionModal() {
@@ -429,23 +437,32 @@ closeTransactionModal() {
 
 addTransaction() {
   if (!this.newTransaction.clientId || !this.newTransaction.trackingMessage) {
-    alert('Client and Message are required.');
+    this.snackBar.open('Client and Message are required.', 'Close', {
+      duration: 3000,
+      verticalPosition: 'top'
+    });
     return;
   }
 
   this.transactionsService.addTransaction(this.newTransaction).subscribe({
     next: () => {
-      alert('Transaction added successfully!');
+      this.snackBar.open('Transaction added successfully!', 'Close', {
+        duration: 3000,
+        verticalPosition: 'top'
+      });
       this.closeTransactionModal();
-      this.loadTransactions(); // reload transactions list
+      this.loadTransactions();
     },
     error: (err) => {
-      console.error('Failed to add transaction:', err);
-      const msg = err.error?.error || 'Adding transaction failed';
-      alert(msg);
+      const msg = err.error?.error || 'Failed to add transaction';
+      this.snackBar.open(msg, 'Close', {
+        duration: 3000,
+        verticalPosition: 'top'
+      });
     }
   });
 }
+
 
   onClientRowDoubleClick(client: Client) {
     this.selectedClient = {
@@ -463,37 +480,63 @@ addTransaction() {
   }
 
 
-  updateClient() {
-    const { clientId, clientName, email, isActive } = this.selectedClient;
-    if (!clientName || !email) {
-      alert('Name and email are required.');
-      return;
-    }
+updateClient() {
+  const { clientId, clientName, email, isActive } = this.selectedClient;
 
-    this.clientService.updateClient(clientId, { clientName, email, isActive }).subscribe({
+  if (!clientName || !email) {
+    this.snackBar.open('Name and email are required.', 'Close', {
+      duration: 3000,
+      verticalPosition: 'top'
+    });
+    return;
+  }
+
+  this.clientService.updateClient(clientId, { clientName, email, isActive }).subscribe({
+    next: () => {
+      this.snackBar.open('Client updated successfully!', 'Close', {
+        duration: 3000,
+        verticalPosition: 'top'
+      });
+      this.closeUpdateClientModal();
+      this.loadClients(this.currentClientPage);
+    },
+    error: (err) => {
+      const msg = err.error?.error || 'Failed to update client';
+      this.snackBar.open(msg, 'Close', {
+        duration: 3000,
+        verticalPosition: 'top'
+      });
+    }
+  });
+}
+
+
+
+
+onDeleteClient(clientId: number, event: MouseEvent): void {
+  event.stopPropagation();
+  this.openConfirmModal('Are you sure you want to delete this client?', () => {
+    this.clientService.deleteClient(clientId).subscribe({
       next: () => {
-        alert('Client updated successfully!');
-        this.closeUpdateClientModal();
-        this.loadClients(this.currentClientPage);
+        this.snackBar.open('Client deleted successfully!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top'
+        });
+        this.showUpdateClientModal = false;
+        this.loadClients();
       },
       error: (err) => {
-        console.error('Update failed:', err);
-        alert(err.error?.error || 'Update failed');
+        const msg = err.error?.error || 'Failed to delete client';
+        this.snackBar.open(msg, 'Close', {
+          duration: 3000,
+          verticalPosition: 'top'
+        });
       }
     });
-  }
-
-
-
-  onDeleteClient(clientId: number, event: MouseEvent): void {
-  event.stopPropagation(); 
-  if (confirm('Are you sure you want to delete this client?')) {
-    this.clientService.deleteClient(clientId).subscribe(() => {
-      this.showUpdateClientModal = false; 
-      this.loadClients(); 
-    });
-  }
+  });
 }
+
+
 
 
 onAdminRowDoubleClick(admin: any) {
@@ -544,18 +587,30 @@ updateAdmin() {
   });
 }
 
-onDeleteAdmin(adminId: number, event: MouseEvent) {
+onDeleteAdmin(adminId: number, event: MouseEvent): void {
   event.stopPropagation();
-  if (confirm('Are you sure you want to delete this admin?')) {
+  this.openConfirmModal('Are you sure you want to delete this admin?', () => {
     this.adminService.deleteAdmin(adminId).subscribe({
       next: () => {
+        this.snackBar.open('Admin deleted successfully!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top'
+        });
         this.loadAdmins(this.currentPage);
         this.closeUpdateAdminModal();
       },
-      error: err => console.error('Delete failed', err)
+      error: (err) => {
+        const msg = err.error?.error || 'Failed to delete admin';
+        this.snackBar.open(msg, 'Close', {
+          duration: 3000,
+          verticalPosition: 'top'
+        });
+      }
     });
-  }
+  });
 }
+
+
 
 
 copyTrackingId(trackingId: string): void {
@@ -593,7 +648,7 @@ closeUpdateTransactionModal() {
   this.showUpdateTransactionModal = false;
 }
 
-updateTransaction() {
+updateTransaction(): void {
   const trackingId = this.selectedTransaction.trackingId;
 
   const updatedData = {
@@ -603,37 +658,91 @@ updateTransaction() {
     description: this.selectedTransaction.description,
   };
 
-  this.transactionsService.updateTransaction(trackingId, updatedData).subscribe(() => {
-    this.loadTransactions(this.currentTransactionPage);
-    this.closeUpdateTransactionModal();
+  this.transactionsService.updateTransaction(trackingId, updatedData).subscribe({
+    next: () => {
+      this.snackBar.open('Transaction updated successfully!', 'Close', {
+        duration: 3000,
+        verticalPosition: 'top'
+      });
+      this.loadTransactions(this.currentTransactionPage);
+      this.closeUpdateTransactionModal();
+    },
+    error: (err) => {
+      const msg = err.error?.error || 'Failed to update transaction';
+      this.snackBar.open(msg, 'Close', {
+        duration: 3000,
+        verticalPosition: 'top'
+      });
+    }
   });
 }
 
-onDeleteTransaction(trackingId: string, event: MouseEvent): void {
-  event.stopPropagation(); // Prevent row click or double-click event
 
-  if (confirm("Are you sure you want to delete this transaction?")) {
-    this.transactionsService.deleteTransaction(trackingId).subscribe(() => {
-      this.loadTransactions(this.currentTransactionPage); // Refresh the transaction list
-      this.closeUpdateTransactionModal(); // Optionally close modal if open
+onDeleteTransaction(trackingId: string, event: MouseEvent): void {
+  event.stopPropagation();
+  this.openConfirmModal('Are you sure you want to delete this transaction?', () => {
+    this.transactionsService.deleteTransaction(trackingId).subscribe({
+      next: () => {
+        this.snackBar.open('Transaction deleted successfully!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top'
+        });
+        this.loadTransactions(this.currentTransactionPage);
+        this.closeUpdateTransactionModal();
+      },
+      error: (err) => {
+        const msg = err.error?.error || 'Failed to delete transaction';
+        this.snackBar.open(msg, 'Close', {
+          duration: 3000,
+          verticalPosition: 'top'
+        });
+      }
     });
-  }
+  });
 }
 
 onDeleteTransactionHistory(trackingId: string): void {
-  if (confirm('Are you sure you want to delete this transaction history?')) {
+  this.openConfirmModal('Are you sure you want to delete this transaction history?', () => {
     this.transactionsService.deleteTransactionHistory(trackingId).subscribe({
       next: () => {
-        alert('Transaction deleted successfully.');
-        this.loadTransactionHistory(this.currentHistoryPage); // Reload the history list
+        this.snackBar.open('Transaction history deleted successfully!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top'
+        });
+        this.loadTransactionHistory(this.currentHistoryPage);
       },
       error: (err) => {
-        console.error('Error deleting transaction:', err);
-        alert('Failed to delete transaction.');
+        const msg = err.error?.error || 'Failed to delete transaction history';
+        this.snackBar.open(msg, 'Close', {
+          duration: 3000,
+          verticalPosition: 'top'
+        });
       }
     });
-  }
+  });
 }
+
+
+
+openConfirmModal(message: string, callback: () => void): void {
+  this.confirmMessage = message;
+  this.confirmCallback = callback;
+  this.showConfirmModal = true;
+}
+
+confirmAction(): void {
+  if (this.confirmCallback) {
+    this.confirmCallback();
+  }
+  this.closeConfirmModal();
+}
+
+closeConfirmModal(): void {
+  this.showConfirmModal = false;
+  this.confirmMessage = '';
+  this.confirmCallback = null;
+}
+
 
 
 

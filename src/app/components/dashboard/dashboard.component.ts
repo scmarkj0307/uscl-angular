@@ -744,6 +744,23 @@ closeConfirmModal(): void {
 }
 
 
+canAccessAdmins(): boolean {
+  return this.authService.isSuperAdminOrDemo();
+}
+
+get isDemoAccount(): boolean {
+  return this.authService.isDemo();
+}
+
+onDemoFeatureAttempt(): void {
+  this.snackBar.open('This feature is disabled since you are using a demo account.', 'Close', {
+    duration: 3000,
+    verticalPosition: 'top'
+  });
+}
+
+
+
 
 
 

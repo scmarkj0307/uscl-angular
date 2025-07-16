@@ -7,7 +7,7 @@
   <div class="sidebar">
     <nav class="sidenav">
       <a (click)="setSection('dashboard')" [class.active]="activeSection === 'dashboard'">Dashboard</a>
-      <a (click)="setSection('admins')" [class.active]="activeSection === 'admins'">Admins</a>
+      <a  *ngIf="canAccessAdmins()" (click)="setSection('admins')" [class.active]="activeSection === 'admins'">Admins</a>
       <a (click)="setSection('clients')" [class.active]="activeSection === 'clients'">Clients</a>
       <a (click)="setSection('transactions')" [class.active]="activeSection === 'transactions'">Transactions</a>
       <a (click)="setSection('transactions-history')" [class.active]="activeSection === 'transactions-history'">Transactions History</a>
@@ -39,7 +39,7 @@
 
 
     <!-- Admins Section -->
-    <div *ngIf="activeSection === 'admins'" class="section full-width">
+    <div *ngIf="activeSection === 'admins' && canAccessAdmins()" class="section full-width">
       <div class="admin-header">
         <h2>ADMINS</h2>
         <button class="register-button" (click)="openRegisterModal()">Register Admin</button>
@@ -107,7 +107,7 @@
           </div>
 
           <div class="modal-buttons">
-            <button class="modal-btn create" (click)="registerAdmin()">Register</button>
+            <button class="modal-btn create" (click)="isDemoAccount ? onDemoFeatureAttempt() : registerAdmin()" >Register</button>
             <button class="modal-btn cancel" (click)="closeRegisterModal()">Cancel</button>
           </div>
         </div>
@@ -130,7 +130,7 @@
         </div>
 
         <div class="modal-buttons">
-          <button class="modal-btn create" (click)="updateAdmin()">Update</button>
+          <button class="modal-btn create" (click)="isDemoAccount ? onDemoFeatureAttempt() : updateAdmin()">Update</button>
           <button class="modal-btn cancel" (click)="closeUpdateAdminModal()">Cancel</button>
           <button class="modal-btn delete" (click)="onDeleteAdmin(selectedAdmin.admin_id, $event)">Delete</button>
         </div>
@@ -197,7 +197,7 @@
         </div>
 
         <div class="modal-buttons">
-          <button class="modal-btn create" (click)="addClient()">Submit</button>
+          <button class="modal-btn create" (click)="isDemoAccount ? onDemoFeatureAttempt() : addClient()">Submit</button>
           <button class="modal-btn cancel" (click)="closeClientModal()">Cancel</button>
         </div>
       </div>
@@ -228,7 +228,7 @@
       </div>
 
       <div class="modal-buttons">
-        <button class="modal-btn create" (click)="updateClient()">Update</button>
+        <button class="modal-btn create" (click)="isDemoAccount ? onDemoFeatureAttempt() : updateClient()">Update</button>
         <button class="modal-btn cancel" (click)="closeUpdateClientModal()">Cancel</button>
         <button class="modal-btn delete" (click)="onDeleteClient(selectedClient.clientId, $event)">Delete</button>
       </div>
@@ -315,7 +315,7 @@
     </div>
 
     <div class="modal-buttons">
-      <button class="modal-btn create" (click)="addTransaction()">Create</button>
+      <button class="modal-btn create" (click)="isDemoAccount ? onDemoFeatureAttempt() : addTransaction()">Create</button>
       <button class="modal-btn cancel" (click)="closeTransactionModal()">Cancel</button>
     </div>
   </div>
@@ -356,7 +356,7 @@
       </div>
 
       <div class="modal-buttons">
-        <button class="modal-btn create" (click)="updateTransaction()">Update</button>
+        <button class="modal-btn create" (click)="isDemoAccount ? onDemoFeatureAttempt() : updateTransaction()">Update</button>
         <button class="modal-btn cancel" (click)="closeUpdateTransactionModal()">Cancel</button>
         <button class="modal-btn delete" (click)="onDeleteTransaction(selectedTransaction.trackingId, $event)">Delete</button>
       </div>
@@ -424,7 +424,7 @@
     <h3 class="confirm-modal-title">Confirm Delete</h3>
     <p>{{ confirmMessage }}</p>
     <div class="confirm-modal-actions">
-      <button (click)="confirmAction()" class="confirm-btn confirm-btn-danger">Yes, Delete</button>
+      <button (click)="isDemoAccount ? onDemoFeatureAttempt() : confirmAction()" class="confirm-btn confirm-btn-danger">Yes, Delete</button>
       <button (click)="closeConfirmModal()" class="confirm-btn confirm-btn-secondary">Cancel</button>
     </div>
   </div>

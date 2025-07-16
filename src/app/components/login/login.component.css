@@ -182,4 +182,17 @@ html, body {
   color: #1d3e60; /* optional: make it match your brand */
 }
 
+.snackbar-success {
+  background-color: #4caf50 !important; /* Green */
+  color: white;
+  font-weight: bold;
+  z-index: 9999 !important;
+}
+
+.snackbar-error {
+  background-color: #f44336 !important; /* Red */
+  color: white;
+  font-weight: bold;
+  z-index: 9999 !important;
+}
 

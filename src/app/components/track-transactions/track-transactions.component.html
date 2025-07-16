@@ -20,20 +20,32 @@
 
 <!-- ✅ Transaction Found Modal -->
 <div class="modal-backdrop" *ngIf="showSuccessModal">
-  <div class="modal">
+  <div class="modal success-modal">
+    <i class="fa-solid fa-circle-check modal-icon success-icon"></i>
     <h2>Transaction Found</h2>
-    <p>ID: {{ transaction?.trackingId }}</p>
-    <p>Message: {{ transaction?.trackingMessage }}</p>
-    <p>Status: {{ transaction?.statusName }}</p>
-    <button (click)="closeSuccessModal()">Close</button>
+    <p><strong>Transaction # </strong> {{ transaction?.trackingId }}</p>
+    <p><strong>Tracking Message:</strong> {{ transaction?.trackingMessage }}</p>
+    <p>
+    <strong>Status:</strong>
+    <span [ngClass]="{
+      'status-pending': transaction?.statusName === 'Pending',
+      'status-ongoing': transaction?.statusName === 'Ongoing',
+      'status-finished': transaction?.statusName === 'Finished'
+    }">
+      {{ transaction?.statusName }}
+    </span>
+  </p>
+    <button class="modal-btn" (click)="closeSuccessModal()">Close</button>
   </div>
 </div>
 
 <!-- ❌ Transaction Not Found Modal -->
 <div class="modal-backdrop" *ngIf="showErrorModal">
-  <div class="modal">
+  <div class="modal error-modal">
+    <i class="fa-solid fa-circle-xmark modal-icon error-icon"></i>
     <h2>Transaction Not Found</h2>
-    <p>No transaction found with ID "{{ trackingId }}"</p>
-    <button (click)="closeErrorModal()">Close</button>
+    <p>No transaction found with ID "<strong>{{ trackingId }}</strong>"</p>
+    <button class="modal-btn" (click)="closeErrorModal()">Close</button>
   </div>
 </div>
+

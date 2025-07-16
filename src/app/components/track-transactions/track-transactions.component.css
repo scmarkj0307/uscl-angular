@@ -1,7 +1,8 @@
-/* General reset */
-*{
+
+*:not([class*="fa-"]) {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 html, body {
   margin: 0;
   padding: 0;
@@ -182,10 +183,142 @@ html, body {
 }
 
 .modal {
-  background-color: white;
-  padding: 20px 30px;
-  border-radius: 8px;
-  min-width: 300px;
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  min-width: 320px;
+  max-width: 90%;
   text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  animation: fadeInScale 0.3s ease-in-out;
+  transition: all 0.3s ease;
 }
+
+
+.success-modal .modal-icon {
+  color: #4caf50;
+}
+
+.error-modal .modal-icon {
+  color: #f44336;
+}
+
+.modal h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  color: #2c406a;
+}
+
+.modal p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #444;
+}
+
+.modal-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #2c406a;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.modal-btn:hover {
+  background-color: #1e2e4d;
+}
+
+/* Animations */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Ensure modal doesn't shift layout */
+.modal-icon {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 50px;
+  z-index: 5;
+  background: white;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.modal h2 {
+  margin: 0 0 12px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #2c406a;
+  letter-spacing: 0.5px;
+}
+
+.modal p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  font-weight: 500;
+}
+
+
+.success-icon {
+  color: #4caf50;
+}
+
+.error-icon {
+  color: #f44336;
+}
+
+/* Adjust modal padding to make space for icon */
+.modal {
+  padding-top: 60px;
+}
+
+/* Transaction status colors */
+.status-pending {
+  color: #b26a00; /* dark amber */
+  font-weight: bold;
+}
+
+.status-ongoing {
+  color: #0d47a1; /* dark blue */
+  font-weight: bold;
+}
+
+.status-finished {
+  color: #1b5e20; /* dark green */
+  font-weight: bold;
+}
+
+
+
+

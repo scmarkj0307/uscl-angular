@@ -1,3 +1,7 @@
+<div class="fullscreen-loader" *ngIf="loading">
+  <span class="loader"></span>
+</div>
+
 <div>
   <div class="header">
     <img src="assets/images/image3.png" alt="USCLC Logo" class="logo" (click)="navigateToHome()" />
@@ -21,8 +25,8 @@
             <input type="password" formControlName="password" placeholder="Password" />
           </div>
 
-          <button type="submit" class="login-button">
-            LOGIN <i class="fas fa-arrow-right arrow"></i>
+          <button type="submit" class="login-button" [disabled]="loading">
+              LOGIN <i class="fas fa-arrow-right arrow"></i>
           </button>
         </form>
       </div>

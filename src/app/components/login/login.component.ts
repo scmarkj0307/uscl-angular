@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMsg = '';
+  loading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -28,6 +29,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
+      this.loading = true;
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
           this.authService.storeToken(res.token);
@@ -37,6 +39,7 @@ export class LoginComponent {
             panelClass: 'snackbar-success'
           });
           this.router.navigate(['/dashboard']);
+          this.loading = false;
         },
         error: (err) => {
           this.errorMsg = err.error.message || 'Login failed';
@@ -45,6 +48,7 @@ export class LoginComponent {
             verticalPosition: 'top',
             panelClass: 'snackbar-error'
           });
+          this.loading = false;
         }
       });
     } else {

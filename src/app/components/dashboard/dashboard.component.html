@@ -1,3 +1,10 @@
+<!-- Initial fullscreen loader (only shows once) -->
+<div class="fullscreen-loader" *ngIf="initialLoading">
+  <div class="loader"></div>
+</div>
+
+
+
 <div class="header">
   <img src="assets/images/image3.png" alt="USCLC Logo" class="logo" />
   <button class="logout" (click)="logout()">LOG OUT</button>
@@ -54,8 +61,8 @@
                 <th>Date Created</th>
               </tr>
             </thead>
-            <tbody>
-          <tr *ngFor="let admin of admins" (dblclick)="onAdminRowDoubleClick(admin)" class="clickable-row">
+              <tbody>
+              <tr *ngFor="let admin of admins" (dblclick)="onAdminRowDoubleClick(admin)" class="clickable-row">
                 <td>{{ admin.username }}</td>
                 <td>{{ admin.email }}</td>
                 <td>{{ admin.created_at | date: 'short' }}</td>
@@ -230,7 +237,7 @@
       <div class="modal-buttons">
         <button class="modal-btn create" (click)="isDemoAccount ? onDemoFeatureAttempt() : updateClient()">Update</button>
         <button class="modal-btn cancel" (click)="closeUpdateClientModal()">Cancel</button>
-        <button class="modal-btn delete" (click)="onDeleteClient(selectedClient.clientId, $event)">Delete</button>
+        <button class="modal-btn delete" (click)="onDeleteClient(selectedClient.clientid, $event)">Delete</button>
       </div>
     </div>
   </div>
@@ -260,15 +267,15 @@
       <tbody>
         <tr *ngFor="let transaction of transactions" (dblclick)="onTransactionRowDoubleClick(transaction)" class="clickable-row">
           <td class="tracking-id-cell">
-            <span>{{ transaction.trackingId }}</span>
-            <button (click)="copyTrackingId(transaction.trackingId.toString())" class="copy-icon-btn" title="Copy">
+            <span>{{ transaction.trackingid }}</span>
+            <button (click)="copyTrackingId(transaction.trackingid.toString())" class="copy-icon-btn" title="Copy">
               <i class="fa-regular fa-copy"></i>
             </button>
           </td>
           <td>{{ transaction.description }}</td>
           <td>{{ transaction.clientName }}</td>
-          <td>{{ transaction.trackingMessage }}</td>
-          <td>{{ transaction.statusName }}</td>
+          <td>{{ transaction.trackingmessage }}</td>
+          <td>{{ transaction.statusname }}</td>
           <td>{{ transaction.created_at | date: 'short' }}</td>
         </tr>
       </tbody>
@@ -293,8 +300,8 @@
 
     <div class="modal-group">
       <label>Client:</label>
-      <select [(ngModel)]="newTransaction.clientId" class="modal-input">
-        <option *ngFor="let client of clients" [ngValue]="client.clientId">
+      <select [(ngModel)]="newTransaction.clientid" class="modal-input">
+        <option *ngFor="let client of clients" [ngValue]="client.clientid">
           {{ client.clientName }}
         </option>
       </select>
@@ -302,12 +309,12 @@
 
     <div class="modal-group">
       <label>Message:</label>
-      <input type="text" [(ngModel)]="newTransaction.trackingMessage" class="modal-input" />
+      <input type="text" [(ngModel)]="newTransaction.trackingmessage" class="modal-input" />
     </div>
 
     <div class="modal-group">
       <label>Status:</label>
-      <select [(ngModel)]="newTransaction.trackingStatusId" class="modal-input">
+      <select [(ngModel)]="newTransaction.trackingstatusid" class="modal-input">
         <option *ngFor="let status of statusOptions" [ngValue]="status.id">
           {{ status.name }}
         </option>
@@ -334,8 +341,8 @@
 
       <div class="modal-group">
         <label>Client:</label>
-        <select [(ngModel)]="selectedTransaction.clientId" class="modal-input">
-          <option *ngFor="let client of clients" [ngValue]="client.clientId">
+        <select [(ngModel)]="selectedTransaction.clientid" class="modal-input">
+          <option *ngFor="let client of clients" [ngValue]="client.clientid">
             {{ client.clientName }}
           </option>
         </select>
@@ -343,12 +350,12 @@
 
       <div class="modal-group">
         <label>Message:</label>
-        <input type="text" [(ngModel)]="selectedTransaction.trackingMessage" class="modal-input" />
+        <input type="text" [(ngModel)]="selectedTransaction.trackingmessage" class="modal-input" />
       </div>
 
       <div class="modal-group">
         <label>Status:</label>
-        <select [(ngModel)]="selectedTransaction.trackingStatusId" class="modal-input">
+        <select [(ngModel)]="selectedTransaction.trackingstatusid" class="modal-input">
           <option [ngValue]="1">Pending</option>
           <option [ngValue]="2">Ongoing</option>
           <option [ngValue]="3">Finished</option>
@@ -358,7 +365,7 @@
       <div class="modal-buttons">
         <button class="modal-btn create" (click)="isDemoAccount ? onDemoFeatureAttempt() : updateTransaction()">Update</button>
         <button class="modal-btn cancel" (click)="closeUpdateTransactionModal()">Cancel</button>
-        <button class="modal-btn delete" (click)="onDeleteTransaction(selectedTransaction.trackingId, $event)">Delete</button>
+        <button class="modal-btn delete" (click)="onDeleteTransaction(selectedTransaction.trackingid, $event)">Delete</button>
       </div>
     </div>
   </div>
@@ -394,15 +401,15 @@
       <tbody>
         <tr *ngFor="let history of transactionsHistory">
           <td class="tracking-id-cell">
-            <span>{{ history.trackingId }}</span>
-            <button (click)="onDeleteTransactionHistory(history.trackingId)" class="delete-icon-btn" title="Delete">
+            <span>{{ history.trackingid }}</span>
+            <button (click)="onDeleteTransactionHistory(history.trackingid)" class="delete-icon-btn" title="Delete">
               <i class="fa-solid fa-trash"></i>
             </button>
           </td>
           <td>{{ history.description }}</td>
           <td>{{ history.clientName }}</td>
-          <td>{{ history.trackingMessage }}</td>
-          <td>{{ history.statusName }}</td>
+          <td>{{ history.trackingmessage }}</td>
+          <td>{{ history.statusname }}</td>
           <td>{{ history.created_at | date: 'short' }}</td>
           <td>{{ history.changed_at | date: 'short' }}</td>
         </tr>

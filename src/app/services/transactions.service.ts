@@ -3,16 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Transaction {
-  historyId?: number;
-  trackingId: string; // changed from number to string
-  clientId: number;
+  historyid?: number;
+  trackingid: string; // changed from number to string
+  clientid: number;
   clientName: string;
-  trackingMessage: string;
-  trackingStatusId: number;
+  trackingmessage: string;
+  trackingstatusid: number;
   description?: string;
   created_at: string;
   changed_at?: string;
-  statusName: string;
+  statusname: string;
 }
 
 @Injectable({
@@ -64,21 +64,21 @@ export class TransactionsService {
   }
 
   addTransaction(transaction: {
-    clientId: number;
-    trackingMessage: string;
-    trackingStatusId: number;
+    clientid: number;
+    trackingmessage: string;
+    trackingstatusid: number;
     description?: string;
-  }): Observable<{ message: string; trackingId: string }> {
-    return this.http.post<{ message: string; trackingId: string }>(
+  }): Observable<{ message: string; trackingid: string }> {
+    return this.http.post<{ message: string; trackingid: string }>(
       `${this.baseUrl}/transactions`,
       transaction
     );
   }
 
   updateTransaction(trackingId: string, updatedData: {
-    clientId: number;
-    trackingMessage: string;
-    trackingStatusId: number;
+    clientid: number;
+    trackingmessage: string;
+    trackingstatusid: number;
     description?: string;
   }): Observable<{ message: string }> {
     return this.http.put<{ message: string }>(
@@ -87,15 +87,15 @@ export class TransactionsService {
     );
   }
 
-  deleteTransaction(trackingId: string): Observable<{ message: string }> {
+  deleteTransaction(trackingid: string): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(
-      `${this.baseUrl}/transactions/${trackingId}`
+      `${this.baseUrl}/transactions/${trackingid}`
     );
   }
 
-  deleteTransactionHistory(trackingId: string): Observable<{ message: string }> {
+  deleteTransactionHistory(trackingid: string): Observable<{ message: string }> {
   return this.http.delete<{ message: string }>(
-    `${this.baseUrl}/transaction-history/${trackingId}`
+    `${this.baseUrl}/transaction-history/${trackingid}`
   );
 }
 

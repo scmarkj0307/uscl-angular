@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Client {
-  clientId: number;
+  clientid: number;
   clientName: string;
   email: string;
   created_at: string;
@@ -37,8 +37,8 @@ export class ClientService {
   }
 
 
-  deleteClient(clientId: number): Observable<any> {
-  return this.http.delete(`${this.apiUrl}/${clientId}`);
+  deleteClient(clientid: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/${clientid}`);
 }
 
 

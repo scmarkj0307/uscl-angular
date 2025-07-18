@@ -13,9 +13,16 @@
   <!-- Center: Image 1 with input and button -->
   <div class="center-content">
     <img src="assets/images/image1.png" alt="Center Image" class="center-image" />
-    <input type="text" [(ngModel)]="trackingId" placeholder="Enter tracking ID" class="track-input" />
-    <button class="track-button" (click)="track()">TRACK NOW!</button>
+    <input type="text" [(ngModel)]="trackingid" placeholder="Enter tracking ID" class="track-input" />
+    <button class="track-button" (click)="track()" [disabled]="loading">
+      TRACK NOW!
+    </button>
   </div>
+</div>
+
+<!-- ✅ Fullscreen Loader Overlay -->
+<div class="fullscreen-loader" *ngIf="loading">
+  <span class="loader"></span>
 </div>
 
 <!-- ✅ Transaction Found Modal -->
@@ -23,18 +30,18 @@
   <div class="modal success-modal">
     <i class="fa-solid fa-circle-check modal-icon success-icon"></i>
     <h2>Transaction Found</h2>
-    <p><strong>Transaction # </strong> {{ transaction?.trackingId }}</p>
-    <p><strong>Tracking Message:</strong> {{ transaction?.trackingMessage }}</p>
+    <p><strong>Transaction # </strong> {{ transaction?.trackingid }}</p>
+    <p><strong>Tracking Message:</strong> {{ transaction?.trackingmessage }}</p>
     <p>
-    <strong>Status:</strong>
-    <span [ngClass]="{
-      'status-pending': transaction?.statusName === 'Pending',
-      'status-ongoing': transaction?.statusName === 'Ongoing',
-      'status-finished': transaction?.statusName === 'Finished'
-    }">
-      {{ transaction?.statusName }}
-    </span>
-  </p>
+      <strong>Status:</strong>
+      <span [ngClass]="{
+        'status-pending': transaction?.statusname === 'Pending',
+        'status-ongoing': transaction?.statusname === 'Ongoing',
+        'status-finished': transaction?.statusname === 'Finished'
+      }">
+        {{ transaction?.statusname }}
+      </span>
+    </p>
     <button class="modal-btn" (click)="closeSuccessModal()">Close</button>
   </div>
 </div>
@@ -44,8 +51,7 @@
   <div class="modal error-modal">
     <i class="fa-solid fa-circle-xmark modal-icon error-icon"></i>
     <h2>Transaction Not Found</h2>
-    <p>No transaction found with ID "<strong>{{ trackingId }}</strong>"</p>
+    <p>No transaction found with ID "<strong>{{ trackingid }}</strong>"</p>
     <button class="modal-btn" (click)="closeErrorModal()">Close</button>
   </div>
 </div>
-

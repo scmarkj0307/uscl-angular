@@ -8,10 +8,11 @@ import { TransactionsService } from '../../services/transactions.service';
   styleUrls: ['./track-transactions.component.css']
 })
 export class TrackTransactionsComponent {
-  trackingId: any;
+  trackingid: any;
   transaction: any;
   showSuccessModal: boolean = false;
   showErrorModal: boolean = false;
+  loading = false;
 
   constructor(private router: Router, private TransactionsService: TransactionsService) {}
 
@@ -24,14 +25,20 @@ export class TrackTransactionsComponent {
   }
 
   track() {
-     this.TransactionsService.getTransactionById(this.trackingId).subscribe({
+    this.loading = true;
+    this.showSuccessModal = false;
+    this.showErrorModal = false;
+
+    this.TransactionsService.getTransactionById(this.trackingid).subscribe({
       next: (data) => {
         this.transaction = data;
         this.showSuccessModal = true;
+        this.loading = false;
       },
       error: (err) => {
         console.error('Error fetching user:', err);
         this.showErrorModal = true;
+        this.loading = false;
       }
     });
   }

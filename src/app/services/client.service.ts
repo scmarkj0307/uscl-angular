@@ -15,7 +15,7 @@ export interface Client {
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = 'http://localhost:3000/api/clients';
+  private apiUrl = 'https://uscl-node.onrender.com/api/clients';
 
   constructor(private http: HttpClient) {}
 

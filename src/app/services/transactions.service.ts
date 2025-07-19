@@ -19,7 +19,7 @@ export interface Transaction {
   providedIn: 'root'
 })
 export class TransactionsService {
-  private readonly baseUrl = 'http://localhost:3000/api';
+  private readonly baseUrl = 'https://uscl-node.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 

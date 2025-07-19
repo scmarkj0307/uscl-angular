@@ -13,7 +13,7 @@ export interface Admin {
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:3000/api/admins';
+  private apiUrl = 'https://uscl-node.onrender.com/api/admins';
 
   constructor(private http: HttpClient) {}
 
